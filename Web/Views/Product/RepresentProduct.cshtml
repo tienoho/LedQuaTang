@@ -1,0 +1,76 @@
+﻿@model  List<Web.Model.Product>
+    @using Web.Core
+    @{
+        var dothtml = ".html";
+    }
+
+    <div class="row large-columns-4 medium-columns- small-columns-2 row-small">
+        @foreach (var item in Model)
+        {
+            <div class="product-small col has-hover product type-product post-1008 status-publish first instock product_cat-gau-bong-teddy product_tag-gau-bong-teddy-xoan-cafe product_tag-gau-bong-teddy-xoan-cafe-ao-len-do has-post-thumbnail shipping-taxable purchasable product-type-simple">
+                <div class="col-inner">
+                    <div class="badge-container absolute left top z-1"></div>
+                    <div class="product-small box">
+
+                        <div class="box-image">
+                            <div class="image-none">
+                                <a href="/chi-tiet-san-pham/@item.ID/@HelperString.RenderLinkSeo(item.Name)@dothtml" title="@item.Name">
+                                    <img onload="Wpfcll.r(this,true);"
+                                         src="@item.Images"
+                                         width="247" height="300"
+                                         data-wpfc-original-src="@item.Images"
+                                         class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
+                                         alt="@item.Name" />
+                                </a>
+                            </div>
+                            <div class="image-tools is-small top right show-on-hover"></div>
+                            <div class="image-tools is-small hide-for-small bottom left show-on-hover">
+                            </div>
+                            <div class="image-tools grid-tools text-center hide-for-small bottom hover-slide-in show-on-hover">
+                                <a rel="nofollow" href="indexbb47.html?add-to-cart=1008"
+                                   data-quantity="1" data-product_id="1008"
+                                   data-product_sku="LYLY19"
+                                   class="ajax_add_to_cart add_to_cart_button add-to-cart-grid no-padding"
+                                   style="width:0;display:block">
+                                    <div class="cart-icon tooltip absolute is-small"
+                                         title="Mua hàng"><strong>+</strong></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box-text box-text-products text-center grid-style-2">
+                            <div class="title-wrapper">
+                                <p class="name product-title">
+                                    <a href="/chi-tiet-san-pham/@item.ID/@HelperString.RenderLinkSeo(item.Name)@dothtml" title="@item.Name">
+                                        @HelperString.TruncateByWord(HelperString.StripHTML(HttpUtility.HtmlDecode(item.Name)), 50)
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="price-wrapper">
+                                <span class="price">
+                                    @{
+                                        if (item.Price == null)
+                                        {
+                                            <span class="woocommerce-Price-amount amount">
+                                                Liên hệ<span class="woocommerce-Price-currencySymbol"></span>
+                                            </span>
+                                        }
+                                        if (item.Price != null)
+                                        {
+                                            <span class="woocommerce-Price-amount amount">
+                                                @String.Format("{0:0,0}", item.Price).Replace(",", ".")&nbsp;<span class="woocommerce-Price-currencySymbol">&#8363;</span>
+                                            </span>
+
+                                        }
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+

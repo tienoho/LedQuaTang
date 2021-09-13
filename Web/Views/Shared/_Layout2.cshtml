@@ -1,0 +1,157 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <link rel="shortcut icon" href="/Content/asset/img/logomini.png">
+    <title>Đèn led trang trí, đèn led đồ chơi,led trái tim, quà tặng bạn gái, quà tặng người yêu</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/">
+
+    <link rel="stylesheet" href="~/Content/asset/font-awesome/css/font-awesome.css">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/asset/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/asset/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/asset/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="~/Content/asset/css/cloud-zoom.css" rel="stylesheet" />
+    <link href="~/Content/asset/css/flexslider.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/Content/asset/css/style.css" rel="stylesheet">
+    <script src="~/Content/asset/js/jquery.min.js"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140300834-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-140300834-1');
+    </script>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <div class="container">
+        <div class="qua-tang-svn">
+            <div class="header">
+                <div class="logo">
+                    <div class="md-hidden col-xs-4" id="clickmenu">
+                        <i class="fa fa-align-justify" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-xs-4 col-sm-3">
+                        @{ Html.RenderAction("Logo", "Home");}
+                    </div>
+                    <div class="xs-hidden col-sm-9 ">
+                        <div class="banner-svn">
+                            <img src="~/Content/asset/img/banner.png" />
+                        </div>
+                        <div class="r_header">
+                            @{Html.RenderAction("Header", "Header");}
+                            <div class="cart">
+                                <a href="/gio-hang.html">
+                                    <span class="cart-title"><span class="count" id="coutCart"></span></span>
+                                    <p>Xem giỏ hàng</p>
+                                </a>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+
+                    <div class="md-hidden col-xs-4">
+                        <div class="cart">
+                            <a href="/gio-hang.html">
+                                <span class="cart-title"><span class="count">0</span></span>
+                                <p>Xem giỏ hàng</p>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+                @{ Html.RenderAction("MenuHome", "Home");}
+            </div>
+                @{ Html.RenderAction("PathWay", "Home");}
+                <main role="main">
+                    <div class="col-xs-12 col-sm-3 col-md-3 panel-chung-danh-muc">
+                        @{ Html.RenderAction("ProductCategory", "Category");}
+                        <div class="panel panel-default mobilehidden">
+                            @{ Html.RenderAction("VideoProduct", "Video");}
+                        </div>
+                        <div class="panel panel-default tin-moi-svn mobilehidden">
+                            @{ Html.RenderAction("NewsHome", "Home");}
+                        </div>
+                        
+                        <div class="panel panel-default mobilehidden">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    <a href="/san-pham/khuyen-mai.html">KHUYẾN MÃI ĐẶC BIỆT</a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                @{ Html.RenderAction("ImageButtom", "AdvImage");}
+                            </div>
+                        </div>
+                    </div>
+                        @RenderBody()
+                </main>
+                <div class="">
+                    <footer class="container"></footer>
+                </div>
+            </div>
+    </div>
+    <div class="footer-svn">
+        <footer class="container">
+            @{Html.RenderAction("LoadFooter", "Footer");}
+        </footer>
+    </div>
+    @{
+        var lst = Session["CoutCart"];
+    }
+    
+    <script src="~/Content/asset/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/asset/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/cloud-zoom.js"></script>
+    <script src="~/Scripts/jquery.flexslider.js"></script>
+    <script src="/Scripts/jquery.twbsPagination.js"></script>
+    <script type="text/javascript">
+        if (typeof window.orientation !== 'undefined') {
+            if ($('#hdProductList').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#product_list').position().top }, 'fast');
+            }
+            else if ($('#hdProductDetail').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#view_detail').position().top }, 'fast');
+            }
+            else if ($('#hdNewDetail').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#view_detail').position().top }, 'fast');
+            }
+            else if ($('#hdInfoDetail').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#view_detail').position().top }, 'fast');
+            }
+            else if ($('#hdmuahang').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#view_detail').position().top }, 'fast');
+            }
+            else if ($('#hdCategoryProudct').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#category_product').position().top }, 'fast');
+            }
+            else if ($('#linkseo').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#category_news').position().top }, 'fast');
+            }
+            else if ($('#hdProductSale').val() !== undefined) {
+                $("html, body").animate({ scrollTop: $('#productsale').position().top }, 'fast');
+            }
+        }
+        $(document).ready(function () {
+            $('#bamtui').click(function () {
+                 //$("html, body").stop().animate({ scrollTop: $('#ongtin') }, 500, 'swing', function () {
+
+                //});
+            })
+            $('#coutCart').text(@lst);
+              $('#clickmenu').click(function(){
+                 $('#menuhome').slideToggle();
+              });
+        });
+    </script>
+</body>
+</html>

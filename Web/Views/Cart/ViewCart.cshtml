@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+    int t = 0;
+    var dothtml = ".html";
+}
+@section js{
+    <script>
+        $(document).ready(function () {
+            var totalMoney = 0;
+
+            $(".total_price_money").each(function () {
+                let money = $(this).val();
+                totalMoney += parseInt(money);
+            });
+            var provisionalMoney = totalMoney;
+            let numCommas = addCommas(totalMoney);
+            $('#totalMoney').text(numCommas);
+            $('#provisionalMoney').text(addCommas(provisionalMoney));
+
+            $.validator.addMethod("validatePhone", function (value, element) {
+                return this.optional(element) || /(09|08)+([0-9]{8})\b/i.test(value);
+            });
+            $("#rules").validate({
+                rules: {
+                    fullname: {
+                        required: true
+                    },
+                    phone: {
+                        required: true,
+                        validatePhone: true
+                    },
+                    gmail: {
+                        required: true,
+                        email: true
+                    },
+                    address: {
+                        required: true
+                    }
+                },
+                messages: {
+                    fullname: "Vui lòng nhập thông tin",
+                    phone: {
+                        required: "Vui lòng nhập thông tin",
+                        validatePhone: "Vui lòng nhập đúng số điện thoại"
+                    },
+                    gmail: {
+                        required: "Vui lòng nhập thông tin",
+                        email: "Vui lòng nhập đúng email"
+                    },
+                    address: "Vui lòng nhập thông tin"
+                }
+            });
+            $('#btnOrder').click(function () {
+                if ($('#rules').valid() == false) {
+                    alert("Kiểm tra lại các trường");
+                }
+                else {
+                    cart.onAddSuccess();
+                }
+            })
+
+            var id = '@Request.RequestContext.HttpContext.Session["id"]';
+
+            if (id == "") {
+
+            }
+            else {
+                $.ajax({
+                    url: '/User/Getdetail',
+                    data: {
+                        id: id
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var data = response.data;
+                        $('#fullname').val(data.FullName);
+                        $('#phone').val(data.Phone);
+                        $('#gmail').val(data.Email);
+                        $('#address').val(data.Address);
+
+                    }
+                });
+            }
+
+
+        })
+    </script>
+    <script src="~/Content/asset/js/validatecart.js"></script>
+    @Scripts.Render("~/bundles/cart")
+}
+@using Web.Core
+@model List<Web.Model.CustomModel.CartItem>
+    <ul class="nav-dropdown nav-dropdown-default">
+        <li class="html widget_shopping_cart">
+            <div class="widget_shopping_cart_content">
+                @if (HttpContext.Current.Session["coutCart"] == null)
+                {
+                    <p class="woocommerce-mini-cart__empty-message">
+                        Chưa có sản phẩm trong
+                        giỏ hàng.
+                    </p>
+                }
+                else
+                {
+                    <ul class="woocommerce-mini-cart cart_list product_list_widget ">
+                        @foreach (var item in Model)
+                        {
+                            <li class="woocommerce-mini-cart-item mini_cart_item">
+                                <a href="https://gausaigon.com/gio-hang/?remove_item=fba9d88164f3e2d9109ee770223212a0&amp;_wpnonce=52134dae1c" class="remove remove_from_cart_button" aria-label="Xóa sản phẩm này" data-product_id="1002" data-cart_item_key="fba9d88164f3e2d9109ee770223212a0" data-product_sku="LYLY13">×</a>
+                                <a href="/chi-tiet-san-pham/@item.Product.ID/@HelperString.RenderLinkSeo(item.Product.Name)@dothtml">
+                                    <img width="247" height="300" src="@item.Product.Images" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="gau-bong-teddy-quang-khan-gau-1m-2.jpg">Gấu bông Teddy quàng khăn gấu 1m
+                                </a>
+                                <span class="quantitys">
+                                    @item.Quantity ×
+                                    @if (item.Product.Price == null)
+                                    {
+                                        <input class="total_price_money" id="hdTotalPriceMoney_@item.Product.ID" type="hidden" value="@(item.Product.Price.GetValueOrDefault(0) * item.Quantity)" />
+                                        <span id="totalPriceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">@String.Format("{0:0,0}", (item.Product.Price.GetValueOrDefault(0) * item.Quantity))</span>
+                                    }
+                                    @if (item.Product.Price != null)
+                                    {
+                                        <input class="total_price_money" id="hdTotalPriceMoney_@item.Product.ID" type="hidden" value="@(item.Product.Price.GetValueOrDefault(0) * item.Quantity)" />
+                                        <span id="totalPriceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">@String.Format("{0:0,0}", (item.Product.Price * item.Quantity))<span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                    }
+                                </span>
+                            </li>
+                        }
+
+                    </ul>
+                }
+
+            </div>
+        </li>
+    </ul>
+

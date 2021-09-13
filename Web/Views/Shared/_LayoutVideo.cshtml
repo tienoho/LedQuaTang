@@ -1,0 +1,73 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@using Web.Areas.Admin.Controllers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="GENERATOR" content="Microsoft SharePoint" />
+    <title>@ConfigTextController.GetValueCFT("Title_Site")</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/Content/Admin/images/logo.png">
+    @*<link rel="stylesheet" type="text/css" href="/_layouts/15/1033/styles/Themable/corev15.css?rev=OqAycmyMLoQIDkAlzHdMhQ%3D%3D" />*@
+    <script src="/assets/js/jquery-1.11.3.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <link href="/Content/Site/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="/Content/Admin/assets/notifications/notification.css" rel="stylesheet" />
+    <script src="/Content/Admin/assets/notifications/notifications.js"></script>
+    <script src="/Content/Admin/assets/notifications/notify.min.js"></script>
+    <script src="/Content/Admin/assets/notifications/notify-metro.js"></script>
+
+    <script src="/Scripts/jsservice.js"></script>
+</head>
+<body id="pagebody">
+    <div class="wapper">
+        @{ var mod = Request["url"];
+         var clshome = "";
+         if (mod == "/")
+         {
+             clshome = "bordernone";
+         }
+        }
+        @{ Html.RenderAction("HomeBanner", "Home"); }
+        @{Html.RenderAction("HomeMenu", "MainMenu");}
+        <section id="body-content">
+            <div class="container">
+                <div class="row ">
+                    <div class="body-content ">
+                        <div class="content-right col-md-9 col-xs-12 col-sm-12 @clshome">
+                            @{ Html.RenderAction("PathWay", "Home"); }
+                            @RenderBody()
+                        </div>
+                        <div class="content-left col-md-3">
+                            <div class="search">
+                                <form action="/News/Search" id="frmSrcHome" method="GET">
+                                    <input type="text" name="keyword" placeholder="Tìm kiếm ...">
+                                    <img src="/assets/images/kinhlup.png" class="pull-right kinhlup" onclick="$('#frmSrcHome').submit();" />
+                                </form>
+                            </div>
+                            @{
+                                Html.RenderAction("AdvTypical", "adv");
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        @{ Html.RenderAction("HomeFooter", "Home"); }
+    </div>
+</body>
+</html>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker.js"></script>
+<script src="/assets/js/owl.carousel.min.js"></script>
+<script src="/assets/js/carouFredSel5152.js"></script>
+<script src="/assets/js/script.js"></script>

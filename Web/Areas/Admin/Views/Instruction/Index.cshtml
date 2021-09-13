@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Hướng dẫn mua hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="~/AppJs/instruction.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Hướng dẫn mua hàng </h3>
+                <div style="top: 8px;position: absolute; right: 40px;" class="pull-right">
+                    <a type="button" class="btn btn-primary waves-effect waves-light" href="/Admin/Instruction/Add"><i class="fa fa-plus"></i> Thêm mới</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="table-responsive" id="gridData">
+
+                        </div>
+                        <div class="pull-right" id="paginationholder">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

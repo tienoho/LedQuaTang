@@ -1,0 +1,180 @@
+﻿@{
+    Layout = null;
+    var dothtml = ".html";
+}
+@model List<Web.Model.HomeMenu>
+
+               <div class="devvn-popup-inner">
+                   <div class="devvn-popup-title">
+                       <span>Đặt mua Vịt bông Lala ôm tim hồng</span>
+                       <button type="button" class="devvn-popup-close"></button>
+                   </div>
+                   <div class="devvn-popup-content devvn-popup-content_990 ">
+                       <div class="devvn-popup-content-left ">
+                           <div class="devvn-popup-prod">
+                               <div class="devvn-popup-img">
+                                   <img src="../../wp-content/uploads/2019/02/gau-bong-lala-om-tim-hong-1-100x100.jpg"
+                                        alt="" />
+                               </div>
+                               <div class="devvn-popup-info">
+                                   <span class="devvn_title">Vịt bông Lala ôm tim hồng</span>
+                                   <span class="devvn_price">
+                                       <span class="woocommerce-Price-amount amount">
+                                           350,000&nbsp;<span class="woocommerce-Price-currencySymbol">&#8363;</span>
+                                       </span>
+                                   </span>
+                               </div>
+                           </div>
+                           <div class="devvn_prod_variable" data-simpleprice="350000">
+
+
+                               <form class="cart"
+                                     action="https://gausaigon.com/san-pham/gau-bong-lala-om-tim-hong/"
+                                     method="post" enctype='multipart/form-data'>
+
+                                   <div class="quantity buttons_added">
+                                       <input type="button" value="-" class="minus button is-form"> <label class="screen-reader-text" for="quantity_5d78b66b22ca8">
+                                           Số
+                                           lượng
+                                       </label>
+                                       <input type="number" id="quantity_5d78b66b22ca8"
+                                              class="input-text qty text" step="1" min="1" max="9999"
+                                              name="quantity" value="1" title="SL" size="4" inputmode="numeric" />
+                                       <input type="button" value="+" class="plus button is-form">
+                                   </div>
+
+                                   <button type="submit" name="add-to-cart" value="990"
+                                           class="single_add_to_cart_button button alt">
+                                       Mua hàng
+                                   </button>
+
+                               </form>
+
+
+                           </div>
+                           <div class="devvn-popup-content-desc">
+                               <p>
+                                   Bạn vui lòng nhập đúng số điện thoại để chúng tôi sẽ gọi xác nhận đơn hàng
+                                   trước khi giao hàng. Xin cảm ơn!
+                               </p>
+                               <div class="aiosrs-rating-wrap" data-schema-id="781">
+                                   <div class="aiosrs-star-rating-wrap ">
+                                       <!-- commented
+                                                -->
+                                       <span class="aiosrs-star-rating dashicons dashicons-star-empty"
+                                             data-index="1"></span>
+                                       <!-- commented
+                                                -->
+                                       <span class="aiosrs-star-rating dashicons dashicons-star-empty"
+                                             data-index="2"></span>
+                                       <!-- commented
+                                                -->
+                                       <span class="aiosrs-star-rating dashicons dashicons-star-empty"
+                                             data-index="3"></span>
+                                       <!-- commented
+                                                -->
+                                       <span class="aiosrs-star-rating dashicons dashicons-star-empty"
+                                             data-index="4"></span>
+                                       <!-- commented
+                                                -->
+                                       <span class="aiosrs-star-rating dashicons dashicons-star-empty"
+                                             data-index="5"></span>
+                                       <!-- commented
+                                                -->
+                                   </div>
+                                   <div class="aiosrs-rating-summary-wrap">
+                                       <span class="aiosrs-rating">
+                                           0/5
+                                       </span>
+                                       <span class="aiosrs-rating-count">
+                                           (0 Reviews)
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="devvn-popup-content-right">
+                           <form class="devvn_cusstom_info" id="devvn_cusstom_info" method="post">
+                               <div class="popup-customer-info">
+                                   <div class="popup-customer-info-title">Thông tin người mua</div>
+                                   <div class="popup-customer-info-group popup-customer-info-radio">
+                                       <label>
+                                           <input type="radio" name="customer-gender" value="1" checked />
+                                           <span>Anh</span>
+                                       </label>
+                                       <label>
+                                           <input type="radio" name="customer-gender" value="2" />
+                                           <span>Chị</span>
+                                       </label>
+                                   </div>
+                                   <div class="popup-customer-info-group">
+                                       <div class="popup-customer-info-item-2 popup-customer-info-name">
+                                           <input type="text" class="customer-name" id="fullname" oninput="checkFullName(this.value)" name="fullname"
+                                                  placeholder="Họ và tên">
+                                       </div>
+                                       <div class="popup-customer-info-item-2 popup-customer-info-phone">
+                                           <input type="text" class="customer-phone" name="phone"
+                                                  id="phone" oninput="checkPhone(this.value)" placeholder="Số điện thoại">
+                                       </div>
+                                   </div>
+
+
+                                   <div class="popup-customer-info-group">
+                                       <div class="popup-customer-info-item-1">
+                                           <input type="text" class="customer-email" name="customer-email"
+                                                  data-required="false"
+                                                  placeholder="Địa chỉ email (Không bắt buộc)">
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="popup-customer-info-group">
+                                       <div class="popup-customer-info-item-1">
+                                           <input type="text" class="customer-address" id="address" oninput="checkAddress(this.value)" name="address"
+                                                  placeholder="Số nhà, tên đường " />
+                                       </div>
+                                   </div>
+
+
+                                 
+
+                                   <div class="popup-customer-info-title customer_coupon_title">
+                                       Hình thức thanh
+                                       toán
+                                   </div>
+                                   <div class="popup-customer-info-group popup-customer-info-radio paymentmethob-wrap">
+                                      
+                                       <label>
+                                           <input type="radio" name="customer-paymentmethob" value="cod" />
+                                           <span>Trả tiền mặt khi nhận hàng</span>
+                                       </label>
+                                   </div>
+                                   
+                                   <div class="popup-customer-info-group">
+                                       <div class="popup-customer-info-item-1 popup_quickbuy_shipping">
+                                           <div class="popup_quickbuy_shipping_title">Tổng:</div>
+                                           <div class="popup_quickbuy_total_calc"></div>
+                                       </div>
+                                   </div>
+                                   <div class="popup-customer-info-group">
+                                       <div class="popup-customer-info-item-1">
+                                           <button type="button" class="devvn-order-btn">Đặt hàng ngay</button>
+                                       </div>
+                                   </div>
+                                   <div class="popup-customer-info-group">
+                                       <div class="popup-customer-info-item-1">
+                                           <div class="devvn_quickbuy_mess"></div>
+                                       </div>
+                                   </div>
+                               </div>
+                               <input type="hidden" name="prod_id" id="prod_id" value="990">
+                               <input type="hidden" name="prod_nonce" id="prod_nonce" value="">
+                               <input type="hidden" name="order_total" id="order_total" value="">
+                               <input type="hidden" name="enable_ship" id="enable_ship" value="1">
+                               <input name="require_address" id="require_address" type="hidden" value="1" />
+                           </form>
+                       </div>
+                   </div>
+               </div>
+
+
+

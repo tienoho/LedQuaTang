@@ -1,0 +1,22 @@
+﻿@{
+    TempData["PathName"] = "Giới thiệu";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+
+}
+  @model Web.Model.About
+<div class="gioi-thieu-svn">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">Giới thiệu</div>
+        </div>
+        <div class="panel-body">
+            <div class="post_content">
+                @Html.Raw(Model.Contents)
+                <div class="clear"></div>
+                <div class="tag_post">
+                    <label>Tag : </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var lstRight = ViewBag.RightRelated;
+    var lstLeft = ViewBag.LeftRelated;
+    var dothtml = ".html";
+}
+<style>
+
+    .content_detail {
+        text-align: justify;
+    }
+</style>
+@using Web.Core
+@model Web.Model.CustomModel.ListNews
+<input type="hidden" id="hdNewDetail" value="0" />
+<main id="main" class="">
+
+    <div id="content" class="blog-wrapper blog-single page-wrapper">
+
+
+        <div class="row row-large row-divided ">
+
+            <div class="large-9 col">
+
+
+
+                <article id="post-880"
+                         class="post-880 post type-post status-publish format-standard has-post-thumbnail hentry category-chuyen-cua-gau tag-gau-bong-tphcm tag-gau-bong-tphcm-gia-re tag-gau-bong-tphcm-dep tag-shop-gau-bong-tphcm tag-dia-chi-ban-gau-bong-tphcm">
+                    <div class="article-inner ">
+                        <header class="entry-header">
+                            <div class="entry-header-text entry-header-text-top text-left">
+                                <h6 class="entry-category is-xsmall">
+                                    <a href="../category/chuyen-cua-gau/index.html" rel="category tag">
+                                        Chuyện
+                                        của gấu
+                                    </a>
+                                </h6>
+
+                                <h1 class="entry-title">@Model.MetaTitle</h1>
+                                <div class="entry-divider is-divider small"></div>
+
+                            </div><!-- .entry-header -->
+
+                        </header><!-- post-header -->
+                        <div class="entry-content single-page">
+
+                            @Html.Raw(Model.Contents)
+                        </div><!-- .entry-content2 -->
+
+
+
+                    </div><!-- .article-inner -->
+                </article><!-- #-880 -->
+
+
+
+
+                @*<div id="comments" class="comments-area">
+
+
+
+
+                    <div id="respond" class="comment-respond">
+                        <h3 id="reply-title" class="comment-reply-title">
+                            Trả lời <small>
+                                <a rel="nofollow"
+                                   id="cancel-comment-reply-link" href="index.html#respond"
+                                   style="display:none;">Hủy</a>
+                            </small>
+                        </h3>
+                        <form action="https://gausaigon.com/wp-comments-post.php" method="post" id="commentform"
+                              class="comment-form" novalidate>
+                            <p class="comment-notes">
+                                <span id="email-notes">
+                                    Email của bạn sẽ không được hiển thị
+                                    công khai.
+                                </span> Các trường bắt buộc được đánh dấu <span class="required">*</span>
+                            </p>
+                            <p class="comment-form-comment">
+                                <label for="comment">Bình luận</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525"
+                                                                                 required="required"></textarea>
+                            </p>
+                            <p class="comment-form-author">
+                                <label for="author">
+                                    Tên <span class="required">*</span>
+                                </label> <input id="author" name="author"
+                                                type="text" value="" size="30" maxlength="245" required='required' />
+                            </p>
+                            <p class="comment-form-email">
+                                <label for="email">
+                                    Email <span class="required">*</span>
+                                </label> <input id="email" name="email"
+                                                type="email" value="" size="30" maxlength="100"
+                                                aria-describedby="email-notes" required='required' />
+                            </p>
+                            <p class="comment-form-url">
+                                <label for="url">Trang web</label> <input id="url"
+                                                                          name="url" type="url" value="" size="30" maxlength="200" />
+                            </p>
+                            <p class="form-submit">
+                                <input name="submit" type="submit" id="submit" class="submit"
+                                       value="Phản hồi" /> <input type='hidden' name='comment_post_ID' value='880'
+                                                                  id='comment_post_ID' />
+                                <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+                            </p>
+                        </form>
+                    </div><!-- #respond -->
+
+                </div><!-- #comments -->*@
+            </div> <!-- .large-9 -->
+
+            <div class="post-sidebar large-3 col">
+                <div id="secondary" class="widget-area " role="complementary">
+                    @{ Html.RenderAction("HotProduct", "Product");}
+                    @{ Html.RenderAction("MenuHome1", "Product");}
+                </div><!-- #secondary -->
+            </div><!-- .post-sidebar -->
+
+        </div><!-- .row -->
+
+    </div><!-- #content .page-wrapper -->
+
+
+</main><!-- #main -->

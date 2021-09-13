@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+    var dothtml = ".html";
+}
+@model List<Web.Model.HomeMenu>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        var lstParent = Model.Where(g => g.ParentId == 0).OrderBy(g => g.Ordering).ToList();
+        <aside id="woocommerce_product_categories-4"
+               class="widget woocommerce widget_product_categories">
+            <span class="widget-title shop-sidebar">Danh mục sản phẩm</span>
+            <div class="is-divider small"></div>
+            <ul class="product-categories">
+                @foreach (var level1 in lstParent)
+                {
+                    var level2 = Model.Where(g => g.ParentId == level1.ID).ToList();
+                    if (level2.Count > 0)
+                    {
+                        <li class="cat-item cat-item-26 cat-parent">
+                            <a href="@level1.Link@dothtml">@level1.Name</a>
+                            <ul class='children'>
+                                @foreach (var item in level2)
+                                {
+
+                                    <li class="cat-item cat-item-28">
+                                        <a href="/danh-muc/@item.LinkSeo@dothtml">
+                                            @item.Name
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a href="@level1.Link@dothtml"> @level1.Name</a></li>
+                    }
+                }
+
+                <li class="cat-item cat-item-76">
+                    <a href="../../danh-muc/uncategorized/index.html">Uncategorized</a>
+                </li>
+            </ul>
+        </aside>
+    }
+
+    
+

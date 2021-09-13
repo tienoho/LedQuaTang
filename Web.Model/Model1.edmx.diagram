@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="638c8dc4fb534d258d3a72e85b2b65d6" Name="Diagram1">
+        <EntityTypeShape EntityType="LedQuaTangModel.About" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.AdminMenu" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.AdvImag" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.Contact" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.Footer" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.HomeMenu" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.Instruction" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.Logo" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.News" Width="1.5" PointX="6.75" PointY="6.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.OrderDetail" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.Partner" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.Product" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.Slide" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.sysdiagram" Width="1.5" PointX="8.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.tbl_GroupUser" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.tbl_Order" Width="1.5" PointX="10.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.User" Width="1.5" PointX="4.75" PointY="10.75" />
+        <EntityTypeShape EntityType="LedQuaTangModel.UserAdmin" Width="1.5" PointX="6.75" PointY="10.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

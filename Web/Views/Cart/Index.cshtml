@@ -1,0 +1,534 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+    int t = 0;
+    var dothtml = ".html";
+}
+@section js{
+    <script>
+        $(document).ready(function () {
+            var totalMoney = 0;
+
+            $(".total_price_money").each(function () {
+                let money = $(this).val();
+                totalMoney += parseInt(money);
+            });
+            var provisionalMoney = totalMoney;
+            let numCommas = addCommas(totalMoney);
+            $('#totalMoney').text(numCommas);
+            $('#provisionalMoney').text(addCommas(provisionalMoney));
+        })
+        $('#update').click(function () {
+            var list = $('.quantitys');
+            var cartList = [];
+            $.each(list, function (i, item) {
+                cartList.push({
+                    Quantity: $(item).val(),
+                    Product: {
+                        ID: $(item).data('id')
+                    }
+                })
+            })
+            $.ajax({
+                url: '/Cart/Update',
+                data: {
+                    cart: JSON.stringify(cartList)
+                },
+                type: 'POST',
+                success: function (res) {
+                    if (res.status == true) {
+                        window.location.href = 'gio-hang.html'
+                    }
+                }
+            })
+        })
+    </script>
+    <script src="~/Content/asset/js/validatecart.js"></script>
+    @Scripts.Render("~/bundles/cart")
+}
+@using Web.Core
+@model List<Web.Model.CustomModel.CartItem>
+    <main id="main" class="">
+        <div id="titleCart" class="content-area page-wrapper" role="main">
+            <div class="row row-main">
+                <div class="large-12 col">
+                    <div class="col-inner">
+
+
+
+                        <div class="woocommerce">
+                            <div class="woocommerce-notices-wrapper"></div><div class="woocommerce row row-large row-divided">
+                                <div class="col large-7 pb-0 ">
+
+
+                                    <form class="woocommerce-cart-form" action="https://gausaigon.com/gio-hang/" method="post">
+                                        <div class="cart-wrapper sm-touch-scroll">
+
+
+                                            <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="product-name" colspan="3">Sản phẩm</th>
+                                                        <th class="product-price">Giá</th>
+                                                        <th class="product-quantity">Số lượng</th>
+                                                        <th class="product-subtotal">Tổng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="loadData">
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        i++;
+                                                        <tr class="woocommerce-cart-form__cart-item cart_item" id="row_@i">
+                                                            <input type="hidden" id="productid_@i" value="@item.Product.ID" />
+                                                            <input type="hidden" id="img_@i" value="@item.Product.Images" />
+                                                            <input type="hidden" id="name_@i" value="@item.Product.Name" />
+                                                            <td class="product-remove">
+                                                                <a href="javascript:void(0)" class="remove" onclick="cart.deleteProduct(@i)" aria-label="Xóa sản phẩm này">×</a>
+                                                            </td>
+
+                                                            <td class="product-thumbnail">
+                                                                <a href="javascript:void(0)"><img width="247" height="300" src="@item.Product.Images" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt=""></a>
+                                                            </td>
+
+                                                            <td class="product-name" data-title="Sản phẩm">
+                                                                <a href="/chi-tiet-san-pham/@item.Product.ID/@HelperString.RenderLinkSeo(item.Product.Name)@dothtml">@item.Product.Name</a>							<div class="show-for-small mobile-product-price">
+                                                                    <span class="mobile-product-price__qty">1 x </span>
+                                                                    <span class="woocommerce-Price-amount amount">350,000&nbsp;<span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                                </div>
+                                                            </td>
+
+                                                            <td class="product-price" data-title="Giá">
+                                                                @if (item.Product.Price == null)
+                                                                {
+                                                                    <input type="hidden" class="hdPrice_@i" id="hdPriceMoney_@item.Product.ID" value="@item.Product.Price.GetValueOrDefault(0)" />
+                                                                    <span id="priceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">Liên hệ</span>
+                                                                }
+                                                                @if (item.Product.Price != null)
+                                                                {
+                                                                    <input type="hidden" class="hdPrice_@i" id="hdPriceMoney_@item.Product.ID" value="@item.Product.Price" />
+                                                                    <span id="priceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">@String.Format("{0:0,0}", item.Product.Price)&nbsp;<span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                                }
+
+                                                            </td>
+
+                                                            <td class="product-quantity" data-title="Số lượng">
+                                                               
+                                                                    <div class="quantity buttons_added">
+                                                                        <input type="button" value="-" class="minus button is-form">		
+                                                                        <input type="number" data-id="@item.Product.ID" id="quantity_@item.Product.ID" class="input-text qty text quantityProduct_@i quantitys" min="1" max="100" value="@item.Quantity" title="SL" size="4">
+                                                                        <input type="button" value="+" class="plus button is-form">
+                                                                    </div>
+                                                                
+                                                            </td>
+
+                                                            <td class="product-subtotal" data-title="Tổng">
+                                                                @if (item.Product.Price == null)
+                                                                {
+                                                                    <input class="total_price_money" id="hdTotalPriceMoney_@item.Product.ID" type="hidden" value="@(item.Product.Price.GetValueOrDefault(0) * item.Quantity)" />
+                                                                    <span id="totalPriceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">@String.Format("{0:0,0}", (item.Product.Price.GetValueOrDefault(0) * item.Quantity))</span>
+                                                                }
+                                                                @if (item.Product.Price != null)
+                                                                {
+                                                                    <input class="total_price_money" id="hdTotalPriceMoney_@item.Product.ID" type="hidden" value="@(item.Product.Price.GetValueOrDefault(0) * item.Quantity)" />
+                                                                    <span id="totalPriceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">@String.Format("{0:0,0}", (item.Product.Price * item.Quantity))<span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+                                                    <tr>
+                                                        <td colspan="6" class="actions clear">
+
+
+                                                            <div class="continue-shopping pull-left text-left">
+                                                                <a class="button-continue-shopping button primary is-outline" href="https://gausaigon.com/cua-hang/">
+                                                                    ←&nbsp;Tiếp tục xem sản phẩm
+                                                                </a>
+                                                            </div>
+                                                            <button type="submit" id="update" class="button primary mt-0 pull-left small" name="update_cart" value="Cập nhật giỏ hàng">Cập nhật giỏ hàng</button>
+
+
+                                                            <input type="hidden" id="woocommerce-cart-nonce" name="woocommerce-cart-nonce" value="cd6b75caad"><input type="hidden" name="_wp_http_referer" value="/gio-hang/">
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                <div class="cart-collaterals large-5 col pb-0">
+
+                                    <div class="cart-sidebar col-inner ">
+                                        <div class="cart_totals ">
+
+                                            <table cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="product-name" colspan="2" style="border-width:3px;">Cộng giỏ hàng</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+
+                                            <h2>Cộng giỏ hàng</h2>
+
+                                            <table cellspacing="0" class="shop_table shop_table_responsive">
+
+                                                <tbody>
+                                                    <tr class="cart-subtotal">
+                                                        <th>Tạm tính</th>
+                                                        <td data-title="Tạm tính">
+                                                            <span id="provisionalMoney" class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                        </td>
+                                                    </tr>
+
+
+
+
+                                                    <tr class="woocommerce-shipping-totals shipping ">
+                                                        <td class="shipping__inner" colspan="2">
+                                                            <table class="shipping__table ">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>Giao hàng</th>
+                                                                        <td data-title="Giao hàng">
+                                                                            Nhập địa chỉ của bạn để xem các tùy chọn vận chuyển
+
+
+                                                                            <form class="woocommerce-shipping-calculator" action="https://gausaigon.com/gio-hang/" method="post">
+
+                                                                                <a href="#" class="shipping-calculator-button">Tính phí giao hàng</a>
+                                                                                <section class="shipping-calculator-form" style="display:none;">
+
+                                                                                    <p class="form-row form-row-wide" id="calc_shipping_country_field">
+                                                                                        <select name="calc_shipping_country" id="calc_shipping_country" class="country_to_state country_select" rel="calc_shipping_state">
+                                                                                            <option value="">Chọn quốc gia…</option>
+                                                                                            <option value="IT">Ý</option>
+                                                                                            <option value="SA">Ả Rập Saudi</option>
+                                                                                            <option value="DE">Đức</option>
+                                                                                            <option value="TW">Đài Loan</option>
+                                                                                            <option value="TL">Đông Timo</option>
+                                                                                            <option value="BV">Đảo Bouvet</option>
+                                                                                            <option value="HM">Đảo Heard và quần đảo McDonald</option>
+                                                                                            <option value="IM">Đảo Man</option>
+                                                                                            <option value="WS">Đảo Samoa</option>
+                                                                                            <option value="DK">Đan Mạch</option>
+                                                                                            <option value="AU">Úc</option>
+                                                                                            <option value="IN">Ấn Độ</option>
+                                                                                            <option value="AT">Áo</option>
+                                                                                            <option value="AF">Afghanistan</option>
+                                                                                            <option value="EG">Ai Cập</option>
+                                                                                            <option value="AL">Albania</option>
+                                                                                            <option value="DZ">Algeria</option>
+                                                                                            <option value="AS">American Samoa</option>
+                                                                                            <option value="AD">Andorra</option>
+                                                                                            <option value="AO">Angola</option>
+                                                                                            <option value="AI">Anguilla</option>
+                                                                                            <option value="GB">Anh (UK)</option>
+                                                                                            <option value="AQ">Antarctica</option>
+                                                                                            <option value="AG">Antigua và Barbuda</option>
+                                                                                            <option value="AR">Argentina</option>
+                                                                                            <option value="AM">Armenia</option>
+                                                                                            <option value="AW">Aruba</option>
+                                                                                            <option value="AZ">Azerbaijan</option>
+                                                                                            <option value="BE">Bỉ</option>
+                                                                                            <option value="PT">Bồ Đào Nha</option>
+                                                                                            <option value="CI">Bờ biển Ngà</option>
+                                                                                            <option value="BS">Bahamas</option>
+                                                                                            <option value="BH">Bahrain</option>
+                                                                                            <option value="BD">Bangladesh</option>
+                                                                                            <option value="BB">Barbados</option>
+                                                                                            <option value="BY">Belarus</option>
+                                                                                            <option value="PW">Belau</option>
+                                                                                            <option value="BZ">Belize</option>
+                                                                                            <option value="BJ">Benin</option>
+                                                                                            <option value="BM">Bermuda</option>
+                                                                                            <option value="BT">Bhutan</option>
+                                                                                            <option value="BO">Bolivia</option>
+                                                                                            <option value="BQ">Bonaire, Saint Eustatius và Saba</option>
+                                                                                            <option value="BA">Bosnia và Herzegovina</option>
+                                                                                            <option value="BW">Botswana</option>
+                                                                                            <option value="BR">Brazil</option>
+                                                                                            <option value="BN">Brunei</option>
+                                                                                            <option value="BG">Bulgaria</option>
+                                                                                            <option value="BF">Burkina Faso</option>
+                                                                                            <option value="BI">Burundi</option>
+                                                                                            <option value="UM">Các Tiểu đảo xa của Hoa Kỳ (US)</option>
+                                                                                            <option value="AE">Các tiểu vương quốc Ả Rập</option>
+                                                                                            <option value="DO">Cộng hòa Dominica</option>
+                                                                                            <option value="CZ">Cộng hòa Séc</option>
+                                                                                            <option value="CF">Cộng hòa Trung Phi</option>
+                                                                                            <option value="CM">Cameroon</option>
+                                                                                            <option value="KH">Campuchia</option>
+                                                                                            <option value="CA">Canada</option>
+                                                                                            <option value="CV">Cape Verde</option>
+                                                                                            <option value="TD">Chad</option>
+                                                                                            <option value="CL">Chile</option>
+                                                                                            <option value="CX">Christmas Island</option>
+                                                                                            <option value="CO">Colombia</option>
+                                                                                            <option value="KM">Comoros</option>
+                                                                                            <option value="CG">Congo (Brazzaville)</option>
+                                                                                            <option value="CD">Congo (Kinshasa)</option>
+                                                                                            <option value="CR">Costa Rica</option>
+                                                                                            <option value="HR">Croatia</option>
+                                                                                            <option value="CU">Cuba</option>
+                                                                                            <option value="CW">CuraÇao</option>
+                                                                                            <option value="CY">Cyprus</option>
+                                                                                            <option value="DJ">Djibouti</option>
+                                                                                            <option value="DM">Dominica</option>
+                                                                                            <option value="EC">Ecuador</option>
+                                                                                            <option value="SV">El Salvador</option>
+                                                                                            <option value="ER">Eritrea</option>
+                                                                                            <option value="EE">Estonia</option>
+                                                                                            <option value="ET">Ethiopia</option>
+                                                                                            <option value="FJ">Fiji</option>
+                                                                                            <option value="GA">Gabon</option>
+                                                                                            <option value="GM">Gambia</option>
+                                                                                            <option value="GE">Georgia</option>
+                                                                                            <option value="GH">Ghana</option>
+                                                                                            <option value="GI">Gibraltar</option>
+                                                                                            <option value="GL">Greenland</option>
+                                                                                            <option value="GD">Grenada</option>
+                                                                                            <option value="GP">Guadeloupe</option>
+                                                                                            <option value="GU">Guam</option>
+                                                                                            <option value="GT">Guatemala</option>
+                                                                                            <option value="GG">Guernsey</option>
+                                                                                            <option value="GN">Guinea</option>
+                                                                                            <option value="GQ">Guinea Xích đạo</option>
+                                                                                            <option value="GW">Guinea-Bissau</option>
+                                                                                            <option value="GY">Guyana</option>
+                                                                                            <option value="GF">Guyane thuộc Pháp</option>
+                                                                                            <option value="NL">Hà Lan</option>
+                                                                                            <option value="KR">Hàn Quốc</option>
+                                                                                            <option value="HK">Hồng Kông</option>
+                                                                                            <option value="HT">Haiti</option>
+                                                                                            <option value="HN">Honduras</option>
+                                                                                            <option value="HU">Hungary</option>
+                                                                                            <option value="GR">Hy Lạp</option>
+                                                                                            <option value="IS">Iceland</option>
+                                                                                            <option value="ID">Indonesia</option>
+                                                                                            <option value="IR">Iran</option>
+                                                                                            <option value="IQ">Iraq</option>
+                                                                                            <option value="IE">Ireland</option>
+                                                                                            <option value="IL">Israel</option>
+                                                                                            <option value="JM">Jamaica</option>
+                                                                                            <option value="JE">Jersey</option>
+                                                                                            <option value="JO">Jordan</option>
+                                                                                            <option value="KZ">Kazakhstan</option>
+                                                                                            <option value="KE">Kenya</option>
+                                                                                            <option value="KI">Kiribati</option>
+                                                                                            <option value="KW">Kuwait</option>
+                                                                                            <option value="KG">Kyrgyzstan</option>
+                                                                                            <option value="IO">Lãnh thổ Ấn Độ Dương thuộc Anh</option>
+                                                                                            <option value="TF">Lãnh thổ miền Nam nước Pháp</option>
+                                                                                            <option value="LA">Lào</option>
+                                                                                            <option value="LV">Latvia</option>
+                                                                                            <option value="LB">Lebanon</option>
+                                                                                            <option value="LS">Lesotho</option>
+                                                                                            <option value="LR">Liberia</option>
+                                                                                            <option value="LY">Libya</option>
+                                                                                            <option value="LI">Liechtenstein</option>
+                                                                                            <option value="LT">Lithuania</option>
+                                                                                            <option value="LU">Luxembourg</option>
+                                                                                            <option value="US">Mỹ (US)</option>
+                                                                                            <option value="MN">Mông Cổ</option>
+                                                                                            <option value="MO">Ma Cao</option>
+                                                                                            <option value="MG">Madagascar</option>
+                                                                                            <option value="MW">Malawi</option>
+                                                                                            <option value="MY">Malaysia</option>
+                                                                                            <option value="MV">Maldives</option>
+                                                                                            <option value="ML">Mali</option>
+                                                                                            <option value="MT">Malta</option>
+                                                                                            <option value="MQ">Martinique</option>
+                                                                                            <option value="MR">Mauritania</option>
+                                                                                            <option value="MU">Mauritius</option>
+                                                                                            <option value="YT">Mayotte</option>
+                                                                                            <option value="MX">Mexico</option>
+                                                                                            <option value="FM">Micronesia</option>
+                                                                                            <option value="MD">Moldova</option>
+                                                                                            <option value="MC">Monaco</option>
+                                                                                            <option value="ME">Montenegro</option>
+                                                                                            <option value="MS">Montserrat</option>
+                                                                                            <option value="MA">Morocco</option>
+                                                                                            <option value="MZ">Mozambique</option>
+                                                                                            <option value="MM">Myanmar</option>
+                                                                                            <option value="NO">Na Uy</option>
+                                                                                            <option value="GS">Nam Georgia và Quần đảo Nam Sandwich</option>
+                                                                                            <option value="ZA">Nam Phi</option>
+                                                                                            <option value="SS">Nam Sudan</option>
+                                                                                            <option value="NA">Namibia</option>
+                                                                                            <option value="NR">Nauru</option>
+                                                                                            <option value="NP">Nepal</option>
+                                                                                            <option value="NC">New Caledonia</option>
+                                                                                            <option value="NZ">New Zealand</option>
+                                                                                            <option value="RU">Nga</option>
+                                                                                            <option value="JP">Nhật Bản</option>
+                                                                                            <option value="NI">Nicaragua</option>
+                                                                                            <option value="NE">Niger</option>
+                                                                                            <option value="NG">Nigeria</option>
+                                                                                            <option value="NU">Niue</option>
+                                                                                            <option value="NF">Norfolk Island</option>
+                                                                                            <option value="MK">North Macedonia</option>
+                                                                                            <option value="OM">Oman</option>
+                                                                                            <option value="PK">Pakistan</option>
+                                                                                            <option value="PS">Palestinian Territory</option>
+                                                                                            <option value="PA">Panama</option>
+                                                                                            <option value="PG">Papua New Guinea</option>
+                                                                                            <option value="PY">Paraguay</option>
+                                                                                            <option value="PE">Peru</option>
+                                                                                            <option value="PL">Phần Lan</option>
+                                                                                            <option value="FI">Phần Lan</option>
+                                                                                            <option value="FR">Pháp</option>
+                                                                                            <option value="PH">Philippines</option>
+                                                                                            <option value="PN">Pitcairn</option>
+                                                                                            <option value="PF">Polynesia thuộc Pháp</option>
+                                                                                            <option value="PR">Puerto Rico</option>
+                                                                                            <option value="QA">Qatar</option>
+                                                                                            <option value="AX">Quần đảo Åland</option>
+                                                                                            <option value="MP">Quần đảo Bắc Mariana</option>
+                                                                                            <option value="KY">Quần đảo Cayman</option>
+                                                                                            <option value="CC">Quần đảo Cocos (Keeling)</option>
+                                                                                            <option value="CK">Quần đảo Cook</option>
+                                                                                            <option value="FK">Quần đảo Falkland</option>
+                                                                                            <option value="FO">Quần đảo Faroe</option>
+                                                                                            <option value="MH">Quần đảo Marshall</option>
+                                                                                            <option value="SB">Quần đảo Solomon</option>
+                                                                                            <option value="RE">Reunion</option>
+                                                                                            <option value="RO">Romania</option>
+                                                                                            <option value="RW">Rwanda</option>
+                                                                                            <option value="ST">São Tomé và Príncipe</option>
+                                                                                            <option value="BL">Saint Barthélemy</option>
+                                                                                            <option value="SH">Saint Helena</option>
+                                                                                            <option value="KN">Saint Kitts và Nevis</option>
+                                                                                            <option value="LC">Saint Lucia</option>
+                                                                                            <option value="SX">Saint Martin (thuộc Hà Lan)</option>
+                                                                                            <option value="PM">Saint Pierre và Miquelon</option>
+                                                                                            <option value="VC">Saint Vincent và Grenadines</option>
+                                                                                            <option value="MF">Saint-Martin (thuộc Pháp)</option>
+                                                                                            <option value="SM">San Marino</option>
+                                                                                            <option value="SN">Senegal</option>
+                                                                                            <option value="RS">Serbia</option>
+                                                                                            <option value="SC">Seychelles</option>
+                                                                                            <option value="SL">Sierra Leone</option>
+                                                                                            <option value="SG">Singapore</option>
+                                                                                            <option value="SK">Slovakia</option>
+                                                                                            <option value="SI">Slovenia</option>
+                                                                                            <option value="SO">Somalia</option>
+                                                                                            <option value="LK">Sri Lanka</option>
+                                                                                            <option value="SD">Sudan</option>
+                                                                                            <option value="SR">Suriname</option>
+                                                                                            <option value="SJ">Svalbard và Jan Mayen</option>
+                                                                                            <option value="SZ">Swaziland</option>
+                                                                                            <option value="SY">Syria</option>
+                                                                                            <option value="ES">Tây Ban Nha</option>
+                                                                                            <option value="TJ">Tajikistan</option>
+                                                                                            <option value="TZ">Tanzania</option>
+                                                                                            <option value="TR">Thổ Nhĩ Kỳ</option>
+                                                                                            <option value="TH">Thái Lan</option>
+                                                                                            <option value="SE">Thụy Điển</option>
+                                                                                            <option value="CH">Thụy Sĩ</option>
+                                                                                            <option value="TG">Togo</option>
+                                                                                            <option value="TK">Tokelau</option>
+                                                                                            <option value="TO">Tonga</option>
+                                                                                            <option value="KP">Triều Tiên</option>
+                                                                                            <option value="TT">Trinidad và Tobago</option>
+                                                                                            <option value="CN">Trung Quốc</option>
+                                                                                            <option value="TN">Tunisia</option>
+                                                                                            <option value="TM">Turkmenistan</option>
+                                                                                            <option value="TC">Turks và quần đảo Caicos</option>
+                                                                                            <option value="TV">Tuvalu</option>
+                                                                                            <option value="UG">Uganda</option>
+                                                                                            <option value="UA">Ukraine</option>
+                                                                                            <option value="UY">Uruguay</option>
+                                                                                            <option value="UZ">Uzbekistan</option>
+                                                                                            <option value="VU">Vanuatu</option>
+                                                                                            <option value="VA">Vatican</option>
+                                                                                            <option value="VE">Venezuela</option>
+                                                                                            <option value="VN" selected="selected">Việt Nam</option>
+                                                                                            <option value="VG">Virgin Islands (British)</option>
+                                                                                            <option value="VI">Virgin Islands (Mỹ)</option>
+                                                                                            <option value="WF">Wallis và Futuna</option>
+                                                                                            <option value="EH">Western Sahara</option>
+                                                                                            <option value="YE">Yemen</option>
+                                                                                            <option value="ZM">Zambia</option>
+                                                                                            <option value="ZW">Zimbabwe</option>
+                                                                                        </select>
+                                                                                    </p>
+
+                                                                                    <p class="form-row form-row-wide validate-required" id="calc_shipping_state_field">
+                                                                                        <span>
+                                                                                            <select name="calc_shipping_state" class="state_select" id="calc_shipping_state" data-placeholder="Tỉnh/Thành phố" placeholder="Tỉnh/Thành phố"><option value="">Chọn một tùy chọn…</option><option value="HANOI">Hà Nội</option><option value="HOCHIMINH">Hồ Chí Minh</option><option value="ANGIANG">An Giang</option><option value="BACGIANG">Bắc Giang</option><option value="BACKAN">Bắc Kạn</option><option value="BACLIEU">Bạc Liêu</option><option value="BACNINH">Bắc Ninh</option><option value="BARIAVUNGTAU">Bà Rịa - Vũng Tàu</option><option value="BENTRE">Bến Tre</option><option value="BINHDINH">Bình Định</option><option value="BINHDUONG">Bình Dương</option><option value="BINHPHUOC">Bình Phước</option><option value="BINHTHUAN">Bình Thuận</option><option value="CAMAU">Cà Mau</option><option value="CANTHO">Cần Thơ</option><option value="CAOBANG">Cao Bằng</option><option value="DAKLAK">Đắk Lắk</option><option value="DAKNONG">Đắk Nông</option><option value="DANANG">Đà Nẵng</option><option value="DIENBIEN">Điện Biên</option><option value="DONGNAI">Đồng Nai</option><option value="DONGTHAP">Đồng Tháp</option><option value="GIALAI">Gia Lai</option><option value="HAGIANG">Hà Giang</option><option value="HAIDUONG">Hải Dương</option><option value="HAIPHONG">Hải Phòng</option><option value="HANAM">Hà Nam</option><option value="HATINH">Hà Tĩnh</option><option value="HAUGIANG">Hậu Giang</option><option value="HOABINH">Hoà Bình</option><option value="HUNGYEN">Hưng Yên</option><option value="KHANHHOA">Khánh Hòa</option><option value="KIENGIANG">Kiên Giang</option><option value="KONTUM">Kon Tum</option><option value="LAICHAU">Lai Châu</option><option value="LAMDONG">Lâm Đồng</option><option value="LANGSON">Lạng Sơn</option><option value="LAOCAI">Lào Cai</option><option value="LONGAN">Long An</option><option value="NAMDINH">Nam Định</option><option value="NGHEAN">Nghệ An</option><option value="NINHBINH">Ninh Bình</option><option value="NINHTHUAN">Ninh Thuận</option><option value="PHUTHO">Phú Thọ</option><option value="PHUYEN">Phú Yên</option><option value="QUANGBINH">Quảng Bình</option><option value="QUANGNAM">Quảng Nam</option><option value="QUANGNGAI">Quảng Ngãi</option><option value="QUANGNINH">Quảng Ninh</option><option value="QUANGTRI">Quảng Trị</option><option value="SOCTRANG">Sóc Trăng</option><option value="SONLA">Sơn La</option><option value="TAYNINH">Tây Ninh</option><option value="THAIBINH">Thái Bình</option><option value="THAINGUYEN">Thái Nguyên</option><option value="THANHHOA">Thanh Hóa</option><option value="THUATHIENHUE">Thừa Thiên Huế</option><option value="TIENGIANG">Tiền Giang</option><option value="TRAVINH">Trà Vinh</option><option value="TUYENQUANG">Tuyên Quang</option><option value="VINHLONG">Vĩnh Long</option><option value="VINHPHUC">Vĩnh Phúc</option><option value="YENBAI">Yên Bái</option></select>
+                                                                                        </span>
+                                                                                    </p>
+
+                                                                                    <p class="form-row form-row-wide validate-required" id="calc_shipping_city_field">
+                                                                                        <input type="text" class="input-text" value="000" placeholder="Chọn quận huyện" name="calc_shipping_city" id="calc_shipping_city" data-placeholder="Chọn quận huyện">
+                                                                                    </p>
+
+
+                                                                                    <p><button type="submit" name="calc_shipping" value="1" class="button">Cập nhật</button></p>
+                                                                                    <input type="hidden" id="woocommerce-shipping-calculator-nonce" name="woocommerce-shipping-calculator-nonce" value="ce0cd97b46"><input type="hidden" name="_wp_http_referer" value="/gio-hang/">
+                                                                                </section>
+                                                                            </form>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+
+
+
+
+
+
+                                                    <tr class="order-total">
+                                                        <th>Tổng</th>
+                                                        <td data-title="Tổng">
+                                                            <strong>
+                                                                <span id="totalMoney" class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+
+                                            <div class="wc-proceed-to-checkout">
+
+                                                <a href="thanh-toan.html" class="checkout-button button alt wc-forward">
+                                                    Tiến hành thanh toán
+                                                </a>
+                                            </div>
+
+
+                                        </div>
+                                        <form class="checkout_coupon mb-0" method="post">
+                                            <div class="coupon">
+                                                <h3 class="widget-title"><i class="icon-tag"></i> Phiếu ưu đãi</h3><input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Mã ưu đãi"> <input type="submit" class="is-form expand" name="apply_coupon" value="Áp dụng">
+                                            </div>
+                                        </form>
+                                        <div class="cart-sidebar-content relative"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cart-footer-content after-cart-content relative"></div>
+                        </div>
+
+
+                    </div><!-- .col-inner -->
+                </div><!-- .large-12 -->
+            </div><!-- .row -->
+        </div>
+
+
+    </main>
+

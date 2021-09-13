@@ -1,0 +1,94 @@
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.dll
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.pdb
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\Web.Core.dll
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.dll
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\Web.Core.pdb
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\Web.Model.pdb
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll.config
+E:\New folder\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.xml
+E:\New folder\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csprojAssemblyReference.cache
+E:\New folder\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CoreCompileInputs.cache
+E:\New folder\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CopyComplete
+E:\New folder\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.dll
+E:\New folder\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.pdb
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.dll
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.pdb
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\Web.Core.dll
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.dll
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\Web.Core.pdb
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\Web.Model.pdb
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll.config
+D:\đồ án\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.xml
+D:\đồ án\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csprojAssemblyReference.cache
+D:\đồ án\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CoreCompileInputs.cache
+D:\đồ án\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CopyComplete
+D:\đồ án\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.dll
+D:\đồ án\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.pdb
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.dll
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.pdb
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\Web.Core.dll
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.dll
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\Web.Core.pdb
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\Web.Model.pdb
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll.config
+D:\doan\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.xml
+D:\doan\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csprojAssemblyReference.cache
+D:\doan\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CoreCompileInputs.cache
+D:\doan\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CopyComplete
+D:\doan\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.dll
+D:\doan\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.pdb
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.dll
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.pdb
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\Web.Core.dll
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.dll
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\Web.Core.pdb
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\Web.Model.pdb
+D:\doand\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.xml
+D:\doand\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.dll
+D:\doand\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.pdb
+D:\doand\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csprojResolveAssemblyReference.cache
+D:\led\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.dll
+D:\led\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.pdb
+D:\led\LedQuaTang\Web.Repository\bin\Debug\Web.Core.dll
+D:\led\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll
+D:\led\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.dll
+D:\led\LedQuaTang\Web.Repository\bin\Debug\Web.Core.pdb
+D:\led\LedQuaTang\Web.Repository\bin\Debug\Web.Model.pdb
+D:\led\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll.config
+D:\led\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.xml
+D:\led\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csprojAssemblyReference.cache
+D:\led\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CoreCompileInputs.cache
+D:\led\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CopyComplete
+D:\led\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.dll
+D:\led\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.pdb
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.dll
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.pdb
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\Web.Core.dll
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.dll
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\Web.Core.pdb
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\Web.Model.pdb
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll.config
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.xml
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csprojAssemblyReference.cache
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CopyComplete
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.dll
+G:\Code\ledproject-master\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.pdb
+E:\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.dll
+E:\LedQuaTang\Web.Repository\bin\Debug\Web.Repository.pdb
+E:\LedQuaTang\Web.Repository\bin\Debug\Web.Core.dll
+E:\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll
+E:\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.dll
+E:\LedQuaTang\Web.Repository\bin\Debug\Web.Core.pdb
+E:\LedQuaTang\Web.Repository\bin\Debug\Web.Model.pdb
+E:\LedQuaTang\Web.Repository\bin\Debug\Web.Model.dll.config
+E:\LedQuaTang\Web.Repository\bin\Debug\EntityFramework.xml
+E:\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.AssemblyReference.cache
+E:\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CoreCompileInputs.cache
+E:\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.csproj.CopyComplete
+E:\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.dll
+E:\LedQuaTang\Web.Repository\obj\Debug\Web.Repository.pdb

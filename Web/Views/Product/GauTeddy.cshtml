@@ -1,0 +1,38 @@
+﻿
+@{
+    TempData["PathName"] = "Sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/AppJs/GauTeddy.js">
+</script>
+<main id="main" class="">
+    <div class="row category-page-row">
+        <div class="col large-12">
+            <div class="shop-container">
+                <div class="woocommerce-notices-wrapper"></div>
+                <div class="products row row-small large-columns-4 medium-columns-3 small-columns-2 equalize-box" id="loadData">
+
+
+                </div>
+                <div class="container">
+                    <nav class="woocommerce-pagination">
+                        <ul class="page-numbers nav-pagination links text-center">
+                            <li><span aria-current='page' class='page-number current'>1</span></li>
+                            <li><a class='page-number' href='page/2/index.html'>2</a></li>
+                            <li>
+                                <a class="next page-number" href="page/2/index.html">
+                                    <i class="icon-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="page-load-status">
+                    <div class="loader-spinner infinite-scroll-request text-center">
+                        <div class="loading-spin"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

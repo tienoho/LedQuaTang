@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var lstProduct = ViewBag.RelatedProduct;
+    var dothtml = ".html";
+    var lstImg = (List<string>)ViewBag.ImageMore;
+    string path = ViewBag.Path;
+}
+@using Web.Core
+@model Web.Model.Product
+@section js{
+    <script>
+    $('#update').click(function () {
+            var list = $('.quantitys');
+            var cartList = [];
+            $.each(list, function (i, item) {
+                cartList.push({
+                    Quantity: $(this).val(),
+                    Product: {
+                        ID: @Model.ID
+                    }
+                })
+            })
+            $.ajax({
+                url: '/Cart/Update1',
+                data: {
+                    cart: JSON.stringify(cartList)
+                },
+                type: 'POST',
+                success: function (res) {
+                }
+            })
+        })
+    </script>
+}
+<main id="main" class="">
+
+    <div class="shop-container">
+
+        <div class="container">
+            <div class="woocommerce-notices-wrapper"></div>
+        </div><!-- /.container -->
+        <div id="product-990"
+             class="product type-product post-990 status-publish first instock product_cat-gau-bong-teddy product_tag-vit-bong-lala-om-tim-hong has-post-thumbnail shipping-taxable purchasable product-type-simple">
+            <div class="row content-row row-divided row-large row-reverse">
+
+                <div id="product-sidebar" class="col large-3 hide-for-medium shop-sidebar ">
+                    @{ Html.RenderAction("MenuHome1", "Product");}
+                    @{ Html.RenderAction("HotProduct", "Product");}
+
+                </div><!-- col large-3 -->
+
+                <div class="col large-9">
+                    <div class="product-main">
+                        <div class="row">
+                            <div class="large-6 col">
+                                @if (lstImg != null && lstImg.Count > 0)
+                                {
+                                    <div class="product-images relative mb-half has-hover woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-4 images"
+                                         data-columns="4">
+
+                                        <div class="badge-container is-larger absolute left top z-1">
+                                        </div>
+                                        <div class="image-tools absolute top show-on-hover right z-3">
+                                        </div>
+
+                                        <figure class="woocommerce-product-gallery__wrapper product-gallery-slider slider slider-nav-small mb-half has-image-zoom"
+                                                data-flickity-options='{
+                                "cellAlign": "center",
+                                "wrapAround": true,
+                                "autoPlay": false,
+                                "prevNextButtons":true,
+                                "adaptiveHeight": true,
+                                "imagesLoaded": true,
+                                "lazyLoad": 1,
+                                "dragThreshold" : 15,
+                                "pageDots": false,
+                                "rightToLeft": false       }'>
+                                            <div data-thumb="https://gausaigon.com/wp-content/uploads/2019/02/gau-bong-lala-om-tim-hong-1-100x100.jpg"
+                                                 class="woocommerce-product-gallery__image slide first">
+
+                                                <a href="@Model.Images">
+                                                    <img width="510" height="383" src="@Model.Images"
+                                                         class="wp-post-image skip-lazy" alt="@Model.Name"
+                                                         title="@Model.Name" data-caption=""
+                                                         data-src="https://gausaigon.com/wp-content/uploads/2019/02/gau-bong-lala-om-tim-hong-1.jpg"
+                                                         data-large_image="https://gausaigon.com/wp-content/uploads/2019/02/gau-bong-lala-om-tim-hong-1.jpg"
+                                                         data-large_image_width="4608" data-large_image_height="3456"
+                                                         srcset="@Model.Images 510w, @Model.Images 300w, @Model.Images 768w, @Model.Images 1024w"
+                                                         sizes="(max-width: 510px) 100vw, 510px" />
+                                                </a>
+                                            </div>
+                                            @foreach (var item in lstImg)
+                                            {
+                                                <div data-thumb="https://gausaigon.com/wp-content/uploads/2019/02/gau-bong-lala-om-tim-hong-1-100x100.jpg"
+                                                     class="woocommerce-product-gallery__image slide first">
+
+                                                    <a href="@item">
+                                                        <img width="510" height="383" src="@item"
+                                                             class="wp-post-image skip-lazy" alt="@Model.Name"
+                                                             title="@Model.Name" data-caption=""
+                                                             data-src="https://gausaigon.com/wp-content/uploads/2019/02/gau-bong-lala-om-tim-hong-1.jpg"
+                                                             data-large_image="https://gausaigon.com/wp-content/uploads/2019/02/gau-bong-lala-om-tim-hong-1.jpg"
+                                                             data-large_image_width="4608" data-large_image_height="3456"
+                                                             srcset="@item 510w, @item 300w, @item 768w, @item 1024w"
+                                                             sizes="(max-width: 510px) 100vw, 510px" />
+                                                    </a>
+                                                </div>
+                                            }
+
+
+                                        </figure>
+
+                                        <div class="image-tools absolute bottom left z-3">
+                                            <a href="#product-zoom"
+                                               class="zoom-button button is-outline circle icon tooltip hide-for-small"
+                                               title="Zoom">
+                                                <i class="icon-expand"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="product-thumbnails thumbnails slider-no-arrows slider row row-small row-slider slider-nav-small small-columns-4"
+                                         data-flickity-options='{
+                              "cellAlign": "left",
+                              "wrapAround": false,
+                              "autoPlay": false,
+                              "prevNextButtons": true,
+                              "asNavFor": ".product-gallery-slider",
+                              "percentPosition": true,
+                              "imagesLoaded": true,
+                              "pageDots": false,
+                              "rightToLeft": false,
+                              "contain": true
+                          }'>
+                                        <div class="col is-nav-selected first">
+                                            <a>
+                                                <img src="@Model.Images" alt="@Model.Name" width="247" height="300"
+                                                     class="attachment-woocommerce_thumbnail" />
+                                            </a>
+                                        </div>
+                                        @foreach (var item in lstImg)
+                                        {
+                                            <div class="col">
+                                                <a>
+                                                    <img src="@item" alt="" width="247" height="300"
+                                                         class="attachment-woocommerce_thumbnail" />
+                                                </a>
+                                            </div>
+                                        }
+
+
+                                    </div><!-- .product-thumbnails -->
+                                }
+                            </div>
+
+
+                            <div class="product-info summary entry-summary col col-fit product-summary">
+                                <h1 class="product-title product_title entry-title">
+                                    @Model.Name
+                                </h1>
+
+                                <div class="is-divider small"></div>
+                                <div class="price-wrapper">
+                                    <p class="price product-page-price ">
+                                        @{ if (Model.Price == null)
+                                                        {
+                                            <span class="woocommerce-Price-amount amount">
+                                                Liên hệ<span class="woocommerce-Price-currencySymbol"></span>
+                                            </span> }
+                                                        if (Model.Price != null)
+                                                        {
+                                            <span class="woocommerce-Price-amount amount">
+                                                @String.Format("{0:0,0}", Model.Price).Replace(",", ".")&nbsp;<span class="woocommerce-Price-currencySymbol">&#8363;</span>
+                                            </span> } }
+                                    </p>
+                                </div>
+
+
+                                <form class="cart"
+                                      action="https://gausaigon.com/san-pham/gau-bong-lala-om-tim-hong/"
+                                      method="post" enctype='multipart/form-data'>
+
+                                    <div class="quantity buttons_added">
+                                        <input type="button" value="-" class="minus button is-form"> <label class="screen-reader-text" for="quantity_5d78b66b1a93b">
+                                            Số
+                                            lượng
+                                        </label>
+                                        <input type="number" id="quantity_5d78b66b1a93b"
+                                               class="input-text qty text quantitys" step="1" min="1" max="9999"
+                                               name="quantity" value="1" title="SL" size="4" inputmode="numeric" />
+                                        <input type="button" value="+" class="plus button is-form">
+                                    </div>
+
+
+                                    <a class="single_add_to_cart_button button alt" id="update" href="/dat-mua-hang?id=@Model.ID&quantity=1">Mua hàng</a>
+
+
+                                </form>
+
+
+                                @*<a href="javascript:void(0);" class="devvn_buy_now devvn_buy_now_style"*@
+                                @*<a href="#" class="devvn_buy_now devvn_buy_now_style"
+                                   data-id="990">
+                                    <strong>Mua ngay</strong>
+                                    <span>Gọi điện xác nhận và giao hàng tận nơi</span>
+                                </a>*@
+                                <div class="product_meta">
+
+
+
+                                    <span class="sku_wrapper">
+                                        Mã: <span class="sku">@Model.ProductCode</span>
+                                    </span>
+
+
+
+                                    <span class="tagged_as">
+                                        Từ khóa: <a href="/chi-tiet-san-pham/@Model.ID/@HelperString.RenderLinkSeo(Model.Name)@dothtml"
+                                                    rel="tag">@Model.Name</a>
+                                                </span>
+
+                                            </div>
+
+                                        </div><!-- .summary -->
+                                    </div><!-- .row -->
+                                </div><!-- .product-main -->
+                                <div class="product-footer">
+
+                                    <div class="woocommerce-tabs wc-tabs-wrapper container tabbed-content">
+                                        <ul class="tabs wc-tabs product-tabs small-nav-collapse nav nav-uppercase nav-line-grow nav-left"
+                                            role="tablist">
+                                            <li class="description_tab active" id="tab-title-description" role="tab"
+                                                aria-controls="tab-description">
+                                                <a href="#tab-description">Mô tả</a>
+                                            </li>
+                                            <li class="additional_information_tab " id="tab-title-additional_information"
+                                                role="tab" aria-controls="tab-additional_information">
+                                                <a href="#tab-additional_information">Thông tin bổ sung</a>
+                                            </li>
+                                        </ul>
+                                        @Html.Raw(Model.Description)
+                                    </div><!-- .tabbed-content -->
+
+
+
+
+                                </div>
+
+                            </div><!-- col large-9 -->
+
+                        </div><!-- .row -->
+                        <div class="devvn-popup-quickbuy mfp-hide" id="popup_content_990">
+                            @*@{ Html.RenderAction("DatHangNhanh", "Product");}*@
+                        </div>
+                    </div>
+
+
+                </div><!-- shop container -->
+
+            </main><!-- #main -->

@@ -1,0 +1,81 @@
+﻿<div class="row footer-container">
+    @{ Html.RenderAction("HomeFooter", "Home"); }
+    @if (Session["langcode"] == null || (string)Session["langcode"] == "vn")
+    {
+        <div class="col-md-3">
+            <div class="footer-info">
+                <h2 class="title">HỆ THỐNG QUẢN TRỊ</h2>
+                <ul class="footer-info footer-link">
+                    <li><a href="#">Hộp thư viên chức HLU</a></li>
+                    <li><a href="#">Hộp thư người học</a></li>
+                    <li><a href="/calendar" target="_blank">Lịch công tác</a></li>
+                    <li><a href="#">ISO 9001:2008</a></li>
+                    <li><a href="#">Quy chế công khai</a></li>
+                    <li><a href="#">Mời thầu - Chào giá</a></li>
+                    <li><a href="#">Tuyển sinh - Chính quy </a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <ul class="footer-info footer-cat">
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('giangvien')"><img src="/Content/Site/images/dt1.png" width="25" height="25" class="hidden-xs" align="absmiddle"> Cán bộ giảng viên</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('sinhvien')"><img src="/Content/Site/images/dt2.png" width="25" height="25" class="hidden-xs"> Sinh viên học viên</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('cuusinhvien')"><img src="/Content/Site/images/dt3.png" width="25" height="25" class="hidden-xs"> Cựu sinh viên</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('doitachoptac')"><img src="/Content/Site/images/dt4.png" width="25" height="25" class="hidden-xs"> Đối tác hợp tác</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('tuyensinh')"><img src="/Content/Site/images/dt5.png" width="25" height="25" class="hidden-xs"> Cổng tuyển sinh</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('doanthanhnien')"><img src="/Content/Site/images/dt6.png" width="25" height="25" class="hidden-xs"> Đoàn thanh niên</a>
+                </li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-3">
+            <div class="footer-info">
+                <h2 class="title">MANAGEMENT</h2>
+                <ul class="footer-info footer-link">
+                    <li><a href="#">Officials mailbox HLU</a></li>
+                    <li><a href="#">Inbox learners</a></li>
+                    <li><a href="http://lichcongtac.thegioiaodoi.net" target="_blank">Working schedule</a></li>
+                    <li><a href="#">ISO 9001:2008</a></li>
+                    <li><a href="#">Regulation publicly</a></li>
+                    <li><a href="#">Tenderer - Offers</a></li>
+                    <li><a href="#">Admissions - Regular</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <ul class="footer-info footer-cat">
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('giangvien')"><img src="/Content/Site/images/dt1.png" width="25" height="25" class="hidden-xs" align="absmiddle"> Faculty members</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('sinhvien')"><img src="/Content/Site/images/dt2.png" width="25" height="25" class="hidden-xs"> Student trainees</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('cuusinhvien')"><img src="/Content/Site/images/dt3.png" width="25" height="25" class="hidden-xs"> Alumni</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('doitachoptac')"><img src="/Content/Site/images/dt4.png" width="25" height="25" class="hidden-xs"> Cooperation partners</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('tuyensinh')"><img src="/Content/Site/images/dt5.png" width="25" height="25" class="hidden-xs"> Entrance gate</a>
+                </li>
+                <li>
+                    <a style="cursor: pointer" onclick="redirectToSubdomain('doanthanhnien')"><img src="/Content/Site/images/dt6.png" width="25" height="25" class="hidden-xs"> Youth Group</a>
+                </li>
+            </ul>
+        </div>
+    }
+</div>

@@ -1,0 +1,25 @@
+﻿
+@{
+    var dothtml = ".html";
+    string logo = ViewBag.LogoFooter;
+}
+@model List<Web.Model.HomeMenu>
+    @if (Model != null && Model.Count > 0)
+    {
+        var lstParent = Model.Where(g => g.ParentId == 0).OrderBy(g => g.Ordering).ToList();
+        <div class="footer-primary pull-left">
+            <div class="menu-main-container">
+                <ul id="menu-main-1" class="links footer-nav uppercase">
+                    @foreach (var level1 in lstParent)
+                    {
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-30 current_page_item menu-item-32">
+                                <a href="@level1.Link@dothtml" aria-current="page">@level1.Name</a>
+                            </li>
+                        }
+                    
+                </ul>
+            </div>
+            <div class="copyright-footer"> Bản quyền thuộc về Công ty TNHH Giải Pháp Minh Hiển</div>
+        </div>
+    }
+    

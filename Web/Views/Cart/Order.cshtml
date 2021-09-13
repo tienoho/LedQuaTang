@@ -1,0 +1,660 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+    int t = 0;
+    var dothtml = ".html";
+}
+@section js{
+    <script>
+        $(document).ready(function () {
+            var totalMoney = 0;
+
+            $(".total_price_money").each(function () {
+                let money = $(this).val();
+                totalMoney += parseInt(money);
+            });
+            var provisionalMoney = totalMoney;
+            let numCommas = addCommas(totalMoney);
+            $('#totalMoney').text(numCommas);
+            $('#provisionalMoney').text(addCommas(provisionalMoney));
+
+            $.validator.addMethod("validatePhone", function (value, element) {
+                return this.optional(element) || /(09|08)+([0-9]{8})\b/i.test(value);
+            });
+            $("#rules").validate({
+                rules: {
+                    fullname: {
+                        required: true
+                    },
+                    phone: {
+                        required: true,
+                        validatePhone: true
+                    },
+                    gmail: {
+                        required: true,
+                        email: true
+                    },
+                    address: {
+                        required: true
+                    }
+                },
+                messages: {
+                    fullname: "Vui lòng nhập thông tin",
+                    phone: {
+                        required: "Vui lòng nhập thông tin",
+                        validatePhone: "Vui lòng nhập đúng số điện thoại"
+                    },
+                    gmail: {
+                        required: "Vui lòng nhập thông tin",
+                        email: "Vui lòng nhập đúng email"
+                    },
+                    address: "Vui lòng nhập thông tin"
+                }
+            });
+            $('#btnOrder').click(function () {
+                if ($('#rules').valid() == false) {
+                    alert("Kiểm tra lại các trường");
+                }
+                else {
+                    cart.orderProduct();
+                }
+            })
+            
+            var id = '@Request.RequestContext.HttpContext.Session["id"]';
+           
+            if (id == "") {
+
+            }
+            else {
+                $.ajax({
+                    url: '/User/Getdetail',
+                    data: {
+                        id: id
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var data = response.data;
+                        $('#fullname').val(data.FullName);
+                        $('#phone').val(data.Phone);
+                        $('#gmail').val(data.Email);
+                        $('#address').val(data.Address);
+
+                    }
+                });
+            }
+            
+            
+        })
+    </script>
+    <script src="~/Content/asset/js/validatecart.js"></script>
+    @Scripts.Render("~/bundles/cart")
+}
+@using Web.Core
+@model List<Web.Model.CustomModel.CartItem>
+    <main id="main" class="">
+        <div id="content" class="content-area page-wrapper" role="main">
+            <div class="row row-main">
+                <div class="large-12 col">
+                    <div class="col-inner">
+
+                        <div class="woocommerce">
+                            <div class="woocommerce-notices-wrapper"></div>
+                            <div class="woocommerce-form-login-toggle">
+
+                                <div class="woocommerce-info message-wrapper">
+                                    <div class="message-container container medium-text-center">
+                                        Bạn đã có tài khoản? <a href="#" class="showlogin">Ấn vào đây để đăng nhập</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <form class="woocommerce-form woocommerce-form-login login" method="post" style="display:none;">
+
+                                <p>If you have shopped with us before, please enter your details below. If you are a new customer, please proceed to the Billing section.</p>
+
+                                <p class="form-row form-row-first">
+                                    <label for="username">Tên đăng nhập hoặc email&nbsp;<span class="required">*</span></label>
+                                    <input type="text" class="input-text" name="username" id="username" autocomplete="username">
+                                </p>
+                                <p class="form-row form-row-last">
+                                    <label for="password">Mật khẩu&nbsp;<span class="required">*</span></label>
+                                    <input class="input-text" type="password" name="password" id="password" autocomplete="current-password">
+                                </p>
+                                <div class="clear"></div>
+
+                                <p class="form-row">
+                                    <label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__rememberme">
+                                        <input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever"> <span>Ghi nhớ mật khẩu</span>
+                                    </label>
+                                    <input type="hidden" id="woocommerce-login-nonce" name="woocommerce-login-nonce" value="027a16844a">
+                                    <input type="hidden" name="_wp_http_referer" value="/thanh-toan/">
+                                    <input type="hidden" name="redirect" value="https://gausaigon.com/thanh-toan/">
+                                    <button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login" value="Đăng nhập">Đăng nhập</button>
+                                </p>
+                                <p class="lost_password">
+                                    <a href="https://gausaigon.com/tai-khoan/lost-password/">Quên mật khẩu?</a>
+                                </p>
+
+                                <div class="clear"></div>
+
+                            </form>
+                            <div class="woocommerce-form-coupon-toggle">
+
+                                <div class="woocommerce-info message-wrapper">
+                                    <div class="message-container container medium-text-center">
+                                        Bạn có mã ưu đãi? <a href="#" class="showcoupon">Ấn vào đây để nhập mã</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form class="checkout_coupon woocommerce-form-coupon has-border is-dashed" method="post" style="display:none">
+
+                                <p>Nếu bạn có mã giảm giá, vui lòng điền vào phía bên dưới.</p>
+                                <div class="coupon">
+                                    <div class="flex-row medium-flex-wrap">
+                                        <div class="flex-col flex-grow">
+                                            <input type="text" name="coupon_code" class="input-text" placeholder="Mã ưu đãi" id="coupon_code" value="">
+                                        </div>
+                                        <div class="flex-col">
+                                            <button type="submit" class="button expand" name="apply_coupon" value="Áp dụng">Áp dụng</button>
+                                        </div>
+                                    </div>
+                                    <!-- row -->
+                                </div>
+                                <!-- coupon -->
+                            </form>
+                            <div class="woocommerce-notices-wrapper"></div>
+                            <form id="rules" name="checkout" method="post" class="checkout woocommerce-checkout " enctype="multipart/form-data" novalidate="novalidate">
+
+                                <div class="row pt-0 ">
+                                    <div class="large-7 col  ">
+
+                                        <div id="customer_details">
+                                            <div class="clear">
+                                                <div class="woocommerce-billing-fields">
+
+                                                    <h3>Thông tin thanh toán</h3>
+
+                                                    <div class="woocommerce-billing-fields__field-wrapper">
+                                                        <p class="form-row form-row-wide validate-required" id="billing_last_name_field" data-priority="10">
+                                                            <label for="billing_last_name" class="">Họ và tên&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label><span class="woocommerce-input-wrapper">
+                                                                <input type="text" class="input-text " id="fullname" oninput="checkFullName(this.value)" placeholder="Nhập đầy đủ họ và tên" value="" name="fullname">
+                                                            </span>
+                                                        </p>
+                                                        <p class="form-row form-row-first validate-required validate-phone" id="billing_phone_field" data-priority="20">
+                                                            <label for="billing_phone" class="">Số điện thoại&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label><span class="woocommerce-input-wrapper">
+                                                                <input type="tel" class="input-text " name="phone" id="phone" oninput="checkPhone(this.value)" placeholder="" value="" autocomplete="tel">
+                                                            </span>
+                                                        </p>
+                                                        <p class="form-row form-row-last validate-required validate-email" id="billing_email_field" data-priority="21">
+                                                            <label for="billing_email" class="">Địa chỉ email&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label><span class="woocommerce-input-wrapper"><input type="text" class="input-text " name="gmail" onblur="validateEmail(this.value)" id="gmail" placeholder="" value="" autocomplete="email username"></span>
+                                                        </p>
+                                                        @*<p class="form-row form-row-wide address-field update_totals_on_change validate-required" id="billing_state_field" data-priority="30">
+                                                            <label for="billing_state" class="">Tỉnh/Thành phố&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label><span class="woocommerce-input-wrapper">
+                                                                <select name="billing_state" id="" class="select  select2-hidden-accessible" data-allow_clear="true" data-placeholder="Chọn tỉnh/thành phố" tabindex="-1" aria-hidden="true">
+                                                                    <option value="">Select Province/City</option>
+                                                                    <option value="HANOI">Hà Nội</option>
+                                                                    <option value="HOCHIMINH" selected="selected">Hồ Chí Minh</option>
+                                                                    <option value="ANGIANG">An Giang</option>
+                                                                    <option value="BACGIANG">Bắc Giang</option>
+                                                                    <option value="BACKAN">Bắc Kạn</option>
+                                                                    <option value="BACLIEU">Bạc Liêu</option>
+                                                                    <option value="BACNINH">Bắc Ninh</option>
+                                                                    <option value="BARIAVUNGTAU">Bà Rịa - Vũng Tàu</option>
+                                                                    <option value="BENTRE">Bến Tre</option>
+                                                                    <option value="BINHDINH">Bình Định</option>
+                                                                    <option value="BINHDUONG">Bình Dương</option>
+                                                                    <option value="BINHPHUOC">Bình Phước</option>
+                                                                    <option value="BINHTHUAN">Bình Thuận</option>
+                                                                    <option value="CAMAU">Cà Mau</option>
+                                                                    <option value="CANTHO">Cần Thơ</option>
+                                                                    <option value="CAOBANG">Cao Bằng</option>
+                                                                    <option value="DAKLAK">Đắk Lắk</option>
+                                                                    <option value="DAKNONG">Đắk Nông</option>
+                                                                    <option value="DANANG">Đà Nẵng</option>
+                                                                    <option value="DIENBIEN">Điện Biên</option>
+                                                                    <option value="DONGNAI">Đồng Nai</option>
+                                                                    <option value="DONGTHAP">Đồng Tháp</option>
+                                                                    <option value="GIALAI">Gia Lai</option>
+                                                                    <option value="HAGIANG">Hà Giang</option>
+                                                                    <option value="HAIDUONG">Hải Dương</option>
+                                                                    <option value="HAIPHONG">Hải Phòng</option>
+                                                                    <option value="HANAM">Hà Nam</option>
+                                                                    <option value="HATINH">Hà Tĩnh</option>
+                                                                    <option value="HAUGIANG">Hậu Giang</option>
+                                                                    <option value="HOABINH">Hoà Bình</option>
+                                                                    <option value="HUNGYEN">Hưng Yên</option>
+                                                                    <option value="KHANHHOA">Khánh Hòa</option>
+                                                                    <option value="KIENGIANG">Kiên Giang</option>
+                                                                    <option value="KONTUM">Kon Tum</option>
+                                                                    <option value="LAICHAU">Lai Châu</option>
+                                                                    <option value="LAMDONG">Lâm Đồng</option>
+                                                                    <option value="LANGSON">Lạng Sơn</option>
+                                                                    <option value="LAOCAI">Lào Cai</option>
+                                                                    <option value="LONGAN">Long An</option>
+                                                                    <option value="NAMDINH">Nam Định</option>
+                                                                    <option value="NGHEAN">Nghệ An</option>
+                                                                    <option value="NINHBINH">Ninh Bình</option>
+                                                                    <option value="NINHTHUAN">Ninh Thuận</option>
+                                                                    <option value="PHUTHO">Phú Thọ</option>
+                                                                    <option value="PHUYEN">Phú Yên</option>
+                                                                    <option value="QUANGBINH">Quảng Bình</option>
+                                                                    <option value="QUANGNAM">Quảng Nam</option>
+                                                                    <option value="QUANGNGAI">Quảng Ngãi</option>
+                                                                    <option value="QUANGNINH">Quảng Ninh</option>
+                                                                    <option value="QUANGTRI">Quảng Trị</option>
+                                                                    <option value="SOCTRANG">Sóc Trăng</option>
+                                                                    <option value="SONLA">Sơn La</option>
+                                                                    <option value="TAYNINH">Tây Ninh</option>
+                                                                    <option value="THAIBINH">Thái Bình</option>
+                                                                    <option value="THAINGUYEN">Thái Nguyên</option>
+                                                                    <option value="THANHHOA">Thanh Hóa</option>
+                                                                    <option value="THUATHIENHUE">Thừa Thiên Huế</option>
+                                                                    <option value="TIENGIANG">Tiền Giang</option>
+                                                                    <option value="TRAVINH">Trà Vinh</option>
+                                                                    <option value="TUYENQUANG">Tuyên Quang</option>
+                                                                    <option value="VINHLONG">Vĩnh Long</option>
+                                                                    <option value="VINHPHUC">Vĩnh Phúc</option>
+                                                                    <option value="YENBAI">Yên Bái</option>
+                                                                </select>
+                                                            </span>
+                                                        </p>
+                                                        <p class="form-row form-row-wide address-field update_totals_on_change validate-required validate-required" id="billing_city_field" data-priority="40">
+                                                            <label for="billing_city" class="">Quận/Huyện <abbr class="required" title="bắt buộc">*</abbr></label>
+                                                            <select name="billing_city" id="" class="select  select2-hidden-accessible" data-allow_clear="true" data-placeholder="Chọn quận huyện" tabindex="-1" aria-hidden="true">
+                                                                <option value="">Chọn quận huyện</option>
+                                                                <option value="760">Quận 1</option>
+                                                                <option value="761">Quận 12</option>
+                                                                <option value="762" selected="selected">Quận Thủ Đức</option>
+                                                                <option value="763">Quận 9</option>
+                                                                <option value="764">Quận Gò Vấp</option>
+                                                                <option value="765">Quận Bình Thạnh</option>
+                                                                <option value="766">Quận Tân Bình</option>
+                                                                <option value="767">Quận Tân Phú</option>
+                                                                <option value="768">Quận Phú Nhuận</option>
+                                                                <option value="769">Quận 2</option>
+                                                                <option value="770">Quận 3</option>
+                                                                <option value="771">Quận 10</option>
+                                                                <option value="772">Quận 11</option>
+                                                                <option value="773">Quận 4</option>
+                                                                <option value="774">Quận 5</option>
+                                                                <option value="775">Quận 6</option>
+                                                                <option value="776">Quận 8</option>
+                                                                <option value="777">Quận Bình Tân</option>
+                                                                <option value="778">Quận 7</option>
+                                                                <option value="783">Huyện Củ Chi</option>
+                                                                <option value="784">Huyện Hóc Môn</option>
+                                                                <option value="785">Huyện Bình Chánh</option>
+                                                                <option value="786">Huyện Nhà Bè</option>
+                                                                <option value="787">Huyện Cần Giờ</option>
+                                                            </select>
+                                                        </p>*@
+                                                        <p class="form-row form-row-wide validate-required" id="billing_address_1_field" data-priority="60">
+                                                            <label for="billing_address_1" class="">Địa chỉ&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label><span class="woocommerce-input-wrapper">
+                                                            <input type="text" class="input-text " id="address" oninput="checkAddress(this.value)" name="address" placeholder="Ví dụ: Số 20, ngõ 90" value="" autocomplete="address-line1"></span>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+
+                                                @*<div class="woocommerce-account-fields">
+
+                                                    <p class="form-row form-row-wide create-account woocommerce-validated">
+                                                        <label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
+                                                            <input class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" id="createaccount" type="checkbox" name="createaccount" value="1"> <span>Tạo tài khoản mới?</span>
+                                                        </label>
+                                                    </p>
+
+                                                    <div class="create-account" style="display: none;">
+                                                        <p class="form-row validate-required" id="account_password_field" data-priority="">
+                                                            <label for="account_password" class="">Tạo mật khẩu của tài khoản&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label><span class="woocommerce-input-wrapper"><input type="password" class="input-text " name="account_password" id="account_password" placeholder="Mật khẩu" value=""></span>
+                                                        </p>
+                                                        <div class="clear"></div>
+                                                    </div>
+
+                                                </div>*@
+                                            </div>
+
+                                            <div class="clear">
+                                                @*<div class="woocommerce-shipping-fields">
+
+                                                    <h3 id="ship-to-different-address">
+                                                        <label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
+                                                            <input id="ship-to-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" type="checkbox" name="ship_to_different_address" value="1"> <span>Giao hàng tới địa chỉ khác?</span>
+                                                        </label>
+                                                    </h3>
+
+                                                    
+
+                                                </div>*@
+                                                <div class="woocommerce-additional-fields">
+
+                                                    <div class="woocommerce-additional-fields__field-wrapper">
+                                                        <p class="form-row notes" id="order_comments_field" data-priority="">
+                                                            <label for="order_comments" class="">Ghi chú đơn hàng&nbsp;<span class="optional">(tuỳ chọn)</span></label><span class="woocommerce-input-wrapper"><textarea name="order_comments" class="input-text " id="order_comments" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn." rows="2" cols="5"></textarea></span>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- large-7 -->
+
+                                    <div class="large-5 col">
+
+                                        <div class="col-inner has-border">
+                                            <div class="checkout-sidebar sm-touch-scroll">
+                                                <h3 id="order_review_heading">Đơn hàng của bạn</h3>
+
+                                                <div id="order_review" class="woocommerce-checkout-review-order">
+                                                    <table class="shop_table woocommerce-checkout-review-order-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="product-name">Sản phẩm</th>
+                                                                <th class="product-total">Tổng</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                i++;
+                                                                <tr class="cart_item">
+                                                                    <td class="product-name">
+                                                                        @item.Product.Name<strong class="product-quantity">× @item.Quantity</strong>
+                                                                    </td>
+                                                                    <td class="product-total">
+                                                                        @if (item.Product.Price == null)
+                                                                        {
+                                                                            <input class="total_price_money" id="hdTotalPriceMoney_@item.Product.ID" type="hidden" value="@(item.Product.Price.GetValueOrDefault(0) * item.Quantity)" />
+                                                                            <span id="totalPriceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">@String.Format("{0:0,0}", (item.Product.Price.GetValueOrDefault(0) * item.Quantity))</span>
+                                                                        }
+                                                                        @if (item.Product.Price != null)
+                                                                        {
+                                                                            <input class="total_price_money" id="hdTotalPriceMoney_@item.Product.ID" type="hidden" value="@(item.Product.Price.GetValueOrDefault(0) * item.Quantity)" />
+                                                                            <span id="totalPriceMoney_@item.Product.ID" class="woocommerce-Price-amount amount">@String.Format("{0:0,0}", (item.Product.Price * item.Quantity))<span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            }
+
+                                                        </tbody>
+                                                        <tfoot>
+
+                                                            <tr class="cart-subtotal">
+                                                                <th>Tạm tính</th>
+                                                                <td>
+                                                                    <span id="provisionalMoney" class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                                </td>
+                                                            </tr>
+
+                                                            @*<tr class="woocommerce-shipping-totals shipping ">
+                                                                <td class="shipping__inner" colspan="2">
+                                                                    <table class="shipping__table ">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Giao hàng</th>
+                                                                                <td data-title="Giao hàng">
+                                                                                    <ul id="shipping_method" class="shipping__list woocommerce-shipping-methods">
+                                                                                        <li class="shipping__list_item">
+                                                                                            <input type="hidden" name="shipping_method[0]" data-index="0" id="shipping_method_0_ghtk_shipping_method" value="ghtk_shipping_method" class="shipping_method">
+                                                                                            <label class="shipping__list_label" for="shipping_method_0_ghtk_shipping_method">
+                                                                                                Vận chuyển qua GHTK: <span class="woocommerce-Price-amount amount">18,000&nbsp;<span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                                                            </label>
+                                                                                        </li>
+                                                                                    </ul>
+
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+
+                                                                    </table>
+                                                                </td>
+                                                            </tr>*@
+
+                                                            <tr class="order-total">
+                                                                <th>Tổng</th>
+                                                                <td>
+                                                                    <strong>
+                                                                        <span id="totalMoney" class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₫</span></span>
+                                                                    </strong>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tfoot>
+                                                    </table>
+
+                                                    <div id="payment" class="woocommerce-checkout-payment">
+                                                        <ul class="wc_payment_methods payment_methods methods">
+                                                           
+                                                            <li class="wc_payment_method payment_method_cod">
+                                                                <input id="payment_method_cod" type="radio" class="input-radio" name="payment_method" value="cod" data-order_button_text="" checked>
+
+                                                                <label for="payment_method_cod">
+                                                                    Trả tiền mặt khi nhận hàng
+                                                                </label>
+                                                                <div class="payment_box payment_method_cod" >
+                                                                    <p>Trả tiền mặt khi giao hàng</p>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="form-row place-order">
+                                                            <noscript>
+                                                                Trình duyệt của bạn không hỗ trợ JavaScript, hoặc nó bị vô hiệu hóa, hãy đảm bảo bạn nhấp vào <em>Cập nhật giỏ hàng</em> trước khi bạn thanh toán. Bạn có thể phải trả nhiều hơn số tiền đã nói ở trên, nếu bạn không làm như vậy.
+                                                                <br />
+                                                                <button type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="Cập nhật tổng">Cập nhật tổng</button>
+                                                            </noscript>
+
+                                                            <div class="woocommerce-terms-and-conditions-wrapper">
+                                                                <div class="woocommerce-terms-and-conditions" style="display: none; max-height: 200px; overflow: auto;">
+                                                                    <p>Đang cập nhật</p>
+                                                                    <p><img class="alignnone size-full wp-image-583" src="https://gausaigon.com/wp-content/uploads/2018/01/tieu-chi-ban-hang.jpg" alt="tieu chi ban hang gau sai gon" width="1061" height="209"></p>
+                                                                    <p>Là một trong những startup online hoạt động về lĩnh vực mua bán gấu bông, thú nhồi bông cao cấp, uy tín, chất lượng cùng vơi giá cả hợp lý,&nbsp;<a href="https://gausaigon.com/" target="_blank" rel="noopener"><strong>GẤU SÀI GÒN</strong></a>&nbsp;xin cam kết chính sách bán hàng và chính sách chất lượng sản phẩm như sau:</p>
+                                                                    <p>Tất cả hàng hoá đều có nguồn gốc xuất xứ rõ ràng, minh bạch, chính hãng từ các nhà sản xuất và các nhà nhập khẩu.</p>
+                                                                    <ul>
+                                                                        <li>Tuyệt đối không bán hàng giả, hàng nhái thương hiệu, hàng kém chất lượng.</li>
+                                                                        <li>Hoàn tiền 100% giá trị hàng hoá bán ra nếu hàng hoá bán ra không đúng cam kết, sai nguồn gốc (không bao gồm chi phí vận chuyển, chuyển hàng). Liên hệ CSKH theo hotline: 0981.663.276.</li>
+                                                                        <li>Hàng hoá bán ra được bảo hành theo tiêu chuẩn của nhà sản xuất.</li>
+                                                                        <li>Sản phẩm được bày bán giá cả cạnh tranh, có giá thấp hơn hoặc bằng giá theo quy định của nhà sản xuất.&nbsp;<a href="https://gausaigon.com/" target="_blank" rel="noopener"><b>Gausaigon.com&nbsp;</b></a>cam kết bán hàng đúng giá – đúng chất lượng.</li>
+                                                                        <li>Để đảm bảo đủ quyền lợi mua hàng xin quý khách vui lòng cung cấp đầy đủ các thông tin cá nhân và địa chỉ liên hệ. Chúng tôi không chịu trách nhiệm nếu thông tin bị thiếu dẫn đến việc giao hàng thất bại, thất lạc hoặc chậm hơn so với thời gian quy định.</li>
+                                                                        <li>Thái độ phục vụ: Trung thực với khách hàng, phục vụ bằng cả trái tim và sự trân trọng nhất.</li>
+                                                                        <li>Không tiết lộ hoặc sử dụng thông tin cá nhân của khách hàng sai mục đích. Tuân thủ pháp luật Việt Nam về bán hàng và bảo vệ quyền lợi người tiêu dùng.</li>
+                                                                        <li>Khách hàng sẽ thường xuyên được hưởng lợi ích từ các chương trình giảm giá, khuyến mại của công ty cũng như các chương trình giảm giá, khuyến mại của các nhà cung cấp. Cam kết trao các giải thưởng, khuyến mại theo đúng quy định.</li>
+                                                                    </ul>
+                                                                    <p>Vì sự phát triển bền vững của công ty, chúng tôi luôn cam kết làm hài lòng khách hàng cao nhất. Nếu bạn có bất kỳ góp ý giúp chúng tôi cải thiện dịch vụ bán hàng tốt hơn, xin vui lòng liên hệ với công ty theo địa chỉ sau.</p>
+                                                                    <p>===========================================</p>
+                                                                    <p><strong>GẤU SÀI GÒN</strong></p>
+                                                                    <p>Địa chỉ: 520/44/10A QL 13, P. Hiệp Bình Phước, Q. Thủ Đức</p>
+                                                                    <p>Hotline:&nbsp;0981.663.276</p>
+                                                                    <p>Email:&nbsp;cskh@gausaigon.com</p>
+                                                                    <p style="text-align: center"><strong>Chúc quý khách luôn hạnh phúc và thành công!</strong></p>
+                                                                    <p><a href="https://gausaigon.com/" target="_blank" rel="noopener"><b>Gausaigon.com&nbsp;</b></a>nhận giao hàng trong địa bàn TP.HCM và gửi hàng đi tỉnh với bất kỳ số lượng.</p>
+                                                                    <p>Quý khách có thể đặt hàng&nbsp;<a href="https://www.facebook.com/gausaigoncom/" target="_blank" rel="noopener">Gấu Sài Gòn</a>&nbsp;với 3 cách như sau:</p>
+                                                                    <p><strong>1. Đặt hàng trên website: gausaigon.com</strong></p>
+                                                                    <p>Quý khách bấm vào sản phẩm mình muốn mua, xem tất cả thông tin liên quan đến sản phẩm rồi quý khách bấm vào nút&nbsp;<strong>MUA NGAY</strong>.</p>
+                                                                    <p>Khi đó, website sẽ hiện ra các thông tin như: Họ vè tên, số điện thoại, địa chỉ email, địa chỉ nhận hàng, ghi chú trên đơn hàng và yêu cầu quý khách nhập. Lúc này, quý khách chỉ cần điền đầy đủ thông tin và bấm vào nút&nbsp;<strong>ĐẶT HÀNG NGAY</strong>, thế là quý khách đã hoàn thành xong các bước đặt hàng xong trên website:&nbsp;<strong>gausaigon.com</strong>.</p>
+                                                                    <p><img class="alignnone size-full wp-image-587" src="https://gausaigon.com/wp-content/uploads/2018/01/dat-hang-ngay-gau-sai-gon.png" alt="dat-hang-ngay-gau-sai-gon" width="960" height="539"></p>
+                                                                    <p><strong>2. Đặt trên fanpage: Gấu Sài Gòn – gausaigon.com</strong></p>
+                                                                    <p>Link fanpage: Quý khách có thể inbox cho fanpage bằng cách gửi hình sản phẩm cho fanpage và cung cấp một số thông tin nhận hàng của quý khách như: &nbsp;<b>Họ và tên, số điện thoại, địa chỉ nhận hàng, sản phẩm&nbsp;</b>để shop có thể gửi hàng.</p>
+                                                                    <p><strong>Link Fanpage:</strong>&nbsp;<a href="https://www.facebook.com/gausaigoncom/" target="_blank" rel="noopener"><strong>Gấu Sài Gòn – gausaigon.com</strong></a></p>
+                                                                    <p><strong>3. Đặt hàng qua điện thoại</strong></p>
+                                                                    <p>Nhắn tin&nbsp;<b>Họ và tên, địa chỉ nhận hàng, sản phẩm&nbsp;</b>qua số điện thoại 0981.663.276 để được hỗ trợ và xác nhận mua hàng, yêu cầu báo giá chi phí vận chuyển.</p>
+                                                                    <p>Lưu ý: Sau khi đặt hàng xong từ 01 đến 05 ngày tùy địa điểm là quý khách có thể nhận hàng.</p>
+                                                                    <p>Mọi thông tin chi tiết: Khách quý vui lòng gọi qua Hotline:&nbsp;<strong>0981.663.276</strong></p>
+                                                                    <p><strong>Chúc quý khách luôn hạnh phúc và thành công!</strong></p>
+                                                                    <p><strong>1. PHƯƠNG THỨC THANH TOÁN KHI NHẬN HÀNG</strong></p>
+                                                                    <p>Sau khi bạn đặt hàng chúng tôi sẽ liên hệ xác nhận đơn hàng qua điện thoại.</p>
+                                                                    <p>Sau đó chúng tôi sẽ giao hàng cho bạn trong thời gian từ&nbsp;<strong>01 đến 05</strong>&nbsp;ngày tùy địa điểm nhận hàng.</p>
+                                                                    <p>Khi nhận được hàng, bạn có quyền kiểm tra hàng hóa, nếu đúng với hàng đã đặt trên website, bạn thanh toán tiền hàng cho nhân viên giao hàng. Nếu không đúng, bạn có quyền không nhận hàng. Nhân viên giao hàng sẽ mang hàng về cho chúng tôi. Chúng tôi thành thật xin lỗi bạn về vấn đề này!</p>
+                                                                    <p><img class="alignnone size-full wp-image-585" src="https://gausaigon.com/wp-content/uploads/2018/01/quy-trinh-ship-cod.jpg" alt="quy-trinh-ship-cod-gau-sai-gon" width="960" height="230"></p>
+                                                                    <p><strong>2. PHƯƠNG THỨC CHUYỂN KHOẢN NGÂN HÀNG</strong></p>
+                                                                    <p>Quý khách hàng có thể chuyển khoản trước cho chúng tôi qua tài khoản sau:</p>
+                                                                    <p>Công Ty TNHH Giải &nbsp;Pháp Minh Hiển</p>
+                                                                    <p>Số tài khoản: 64064066</p>
+                                                                    <p>Ngân hàng TMCP Á Châu (ACB) – CN Hồ Chí Minh</p>
+                                                                    <p>Khi chuyển tiền, quý khách vui lòng điền đầy đủ thông tin về&nbsp;<b>Họ và tên, Sản phẩm, số tiền chuyển</b>. Sau khi chuyển khoản, quý khách vui lòng liên hệ với nhân viên tư vấn để xác nhận.</p>
+                                                                    <p><strong>Chúc quý khách luôn hạnh phúc và thành công!</strong></p>
+                                                                    <ol>
+                                                                        <li><strong>Mục đích:</strong></li>
+                                                                    </ol>
+                                                                    <p>Mang đến cho khách hàng những sản phẩm chất lượng cùng dịch vụ hậu mãi chu đáo khi mua hàng tại gausaigon.com</p>
+                                                                    <p>Hỗ trợ và gia tăng giá trị ưu đãi cho khách hàng khi sử dụng sản phẩm.</p>
+                                                                    <ol start="2">
+                                                                        <li><strong>Phạm vi áp dụng:</strong></li>
+                                                                    </ol>
+                                                                    <p>Đối tượng: Khách hàng đặt mua online tại gausaigon.com hoặc đặt hàng qua điện thoại của công ty.</p>
+                                                                    <p>Khu vực: Toàn quốc</p>
+                                                                    <ol start="3">
+                                                                        <li><strong>Chính sách đổi sản phẩm:</strong></li>
+                                                                    </ol>
+                                                                    <p>Sản phẩm được bán tại gausaigon.com.</p>
+                                                                    <p>Sản phẩm bị lỗi kỹ thuật được xác nhận bởi Nhà sản xuất/Nhà cung cấp.</p>
+                                                                    <p>Sản phẩm còn đầy đủ thùng hộp, phụ kiện.</p>
+                                                                    <p>Sản phẩm phải còn nguyên tem niêm phong của Nhà sản xuất.</p>
+                                                                    <p>Không áp dụng cho trường hợp trả hàng – hoàn tiền sản phẩm.</p>
+                                                                    <p>Trường hợp thiếu các điều kiện trên sẽ không áp dụng chính sách đổi sản phẩm. Sản phẩm chỉ được bảo hành theo chính sách của Nhà sản xuất.</p>
+                                                                    <p>Sản phẩm trầy xước, thiếu hóa đơn, quà khuyến mãi (nếu có) sẽ khấu trừ mỗi loại từ 05% giá trị của sản phẩm theo hóa đơn.</p>
+                                                                    <p>Sản phẩm không thuộc nhóm từ chối đổi sản phẩm (mục 4).</p>
+                                                                    <p>Chỉ áp dụng đổi sản phẩm bị lỗi, không đổi linh phụ kiện kèm theo sản phẩm.</p>
+                                                                    <ol start="4">
+                                                                        <li><strong>Điều kiện không được đổi sản phẩm:</strong></li>
+                                                                    </ol>
+                                                                    <p>Ngoại trừ những trường hợp như mục số 3 ở trên.</p>
+                                                                    <p>Sản phẩm bị hư do thiên tai, hỏa hoạn, lụt lội, sét đánh, côn trùng, động vật vào. Đặt gấu bông nơi bụi bẩn, thời tiết ẩm ướt và nhiệt độ cao, có vết mốc, rỉ sét, ăn mòn, oxy hóa…</p>
+                                                                    <p>Khách hàng gây nên những khuyết tật như biến dạng, nứt vỡ, hư hỏng…</p>
+                                                                    <p>Sản phẩm bị thay đổi, sửa chữa bởi kỹ thuật viên không thuộc các Trung tâm bảo hành bảo hành ủy quyền của nhà sản xuất.</p>
+                                                                    <ol start="5">
+                                                                        <li><strong>Quy định thực hiện đổi sản phẩm:</strong></li>
+                                                                    </ol>
+                                                                    <p>Thực hiện 1 đổi 1 sản phẩm (cùng mẫu, cùng màu, cùng dung lượng,..).</p>
+                                                                    <p>Trường hợp sản phẩm đổi hết hàng, khách hàng có thể đổi sang sản phẩm khác cùng chủng loại và có giá trị bằng hoặc lớn hơn giá trị sản phẩm ban đầu. Nếu giá trị của sản phẩm mới cao hơn giá trị sản phẩm ban đầu, khách hàng thanh toán chi phí chênh lệch.</p>
+                                                                    <p>Trường hợp phụ kiện đi kèm theo máy bị lỗi kỹ thuật chỉ đổi phụ kiện.</p>
+                                                                    <p>Quý khách mang sản phẩm đến trực tiếp văn phòng công ty.</p>
+                                                                    <p>Quý khách vui lòng kiểm tra hàng hóa và ký nhận tình trạng với Nhân viên giao hàng ngay khi nhận được hàng. Khi phát hiện một trong các trường hợp trên, quý khách có thể trao đổi trực tiếp với Nhân viên giao hàng hoặc phản hồi cho chúng tôi trong vòng 24h theo hotline: 0981.663.276.</p>
+                                                                    <p><img class="size-full wp-image-590 aligncenter" src="https://gausaigon.com/wp-content/uploads/2018/01/chinh-sach-van-chuyen-gau-sai-gon.jpg" alt="chinh-sach-van-chuyen-gau-sai-gon" width="700" height="200"></p>
+                                                                    <p><b>1. Giao hàng trên địa bàn TP. HCM:</b></p>
+                                                                    <p>–&nbsp;<a href="https://gausaigon.com/"><b>GẤU SÀI GÒN&nbsp;</b></a>có dịch vụ giao hàng tận nhà và thu tiền tận nơi trên địa bàn TP.HCM.</p>
+                                                                    <p><b>Bảng phí Ship đơn hàng tại TP.HCM</b></p>
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td><b>Khu vực</b></td>
+                                                                                <td><b>A</b>Gồm các quận 1,3,4,5,6,10,11, Tân Bình, Phú Nhuận, Gò Vấp, Bình Thạnh</td>
+                                                                                <td><b>B</b>Gồm các quận 2,7, 8, 9,12, Thủ Đức, Bình Tân, Tân Phú</td>
+                                                                                <td><b>C</b>Bình Chánh, Hóc Môn</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><b>Cước phí</b></td>
+                                                                                <td><b>30.000</b></td>
+                                                                                <td><b>40.000</b></td>
+                                                                                <td><b>50.000</b></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><b>Thời gian dự kiến nhận được hàng</b></td>
+                                                                                <td>Từ 1 – 2 ngày</td>
+                                                                                <td>Từ 2 – 3 ngày</td>
+                                                                                <td>Từ 3 – 4 ngày</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <p>Giao lần 1 không thành công, sẽ giao lại lần 2 trong từ 1 đến 2 ngày tiếp theo.</p>
+                                                                    <p><b>2. Gửi hàng từ TP.HCM &nbsp;về tỉnh/ thành phố khác:</b></p>
+                                                                    <p>– Đối với đơn đặt hàng ngoài tỉnh,&nbsp;<a href="https://gausaigon.com/"><b>GẤU SÀI GÒN&nbsp;</b></a>sẽ gửi hàng theo ship COD.</p>
+                                                                    <p><b>3. Thời gian nhận hàng:</b></p>
+                                                                    <p>– Đối với quý khách ở nội thành Hồ Chí Minh, thời gian nhận hàng trong vòng 48h kể từ lúc xác nhận đơn hàng.</p>
+                                                                    <p>– Đối với quý khách ở ngoại thành Hồ Chí Minh (các huyện Bình Chánh, Cần Giờ, Củ Chi, Hóc Môn, Nhà Bè) và các tỉnh thành khác, sau khi hoàn tất thủ tục đặt hàng và thỏa thuận thanh toán khách hàng sẽ nhận hàng trong vòng từ 02 đến 04 ngày tùy theo cách thức vận chuyển.</p>
+                                                                    <p><b>4. Quy trình giao hàng:</b></p>
+                                                                    <p>– Nhân viên của chúng tôi sẽ liên hệ khách hàng để tư vấn phương thức giao hàng trực tiếp qua số:&nbsp;<b><i>0981.663.276.</i></b></p>
+                                                                    <p>– Giao hàng đến đúng địa chỉ trong đơn hàng mà khách hàng thanh toán yêu cầu</p>
+                                                                    <p>– Thời gian giao hàng từ thứ hai đến thứ bảy (8h đến 18h)</p>
+                                                                    <p>– Thời gian chính xác của việc giao hàng không thể chỉ định rõ (tùy thuộc địa điểm giao hàng) nhưng chúng tôi sẽ cố gắng hết sức để giao đúng thời gian cho Quý Khách.</p>
+                                                                    <p>– Những đơn hàng đặt mua sau 15h ngày thứ 7 và trong ngày Chủ nhật sẽ được chuyển vào ngày thứ hai của tuần kế tiếp.</p>
+                                                                    <p>– Trong trường hợp với các đơn hàng đã được thanh toán nhưng vì một lý do kho hàng hết hàng hoặc hàng hóa không đảm bảo chất lượng.&nbsp;<a href="https://gausaigon.com/"><strong>GẤU SÀI GÒN</strong></a>&nbsp;sẽ thông báo đến khách hàng bằng điện thoại di động hoặc email thay đổi hàng hóa hoặc thời gian giao hàng.</p>
+                                                                    <p><strong>Chúc quý khách thành công và hạnh phúc!</strong></p>
+                                                                    <p><strong><a href="https://gausaigon.com/">Gausaigon.com</a>&nbsp;</strong>cam kết sẽ bảo mật những thông tin mang tính riêng tư của khách hàng. Quý khách vui lòng đọc bản “Chính sách bảo mật” dưới đây để hiểu hơn những cam kết mà chúng tôi thực hiện, nhằm tôn trọng và bảo vệ quyền lợi của người truy cập:</p>
+                                                                    <p><strong>1. Thu thập thông tin cá nhân</strong></p>
+                                                                    <p>– Các thông tin thu thập thông qua website: gausaigon.com sẽ giúp chúng tôi</p>
+                                                                    <ul>
+                                                                        <li>Hỗ trợ khách hàng khi mua sản phẩm.</li>
+                                                                        <li>Giải đáp thắc mắc khách hàng.</li>
+                                                                        <li>Cung cấp cho bạn thông tin mới nhất trên Website của chúng tôi.</li>
+                                                                        <li>Xem xét và nâng cấp nội dung và giao diện của Website.</li>
+                                                                        <li>Thực hiện các hoạt động quảng bá liên quan đến các sản phẩm và dịch vụ của<strong><a href="https://gausaigon.com/">gausaigon.com</a>.</strong></li>
+                                                                    </ul>
+                                                                    <p>– Để truy cập và sử dụng một số dịch vụ tại gausaigon.com, quý khách có thể sẽ được yêu cầu đăng ký với chúng tôi thông tin cá nhân (Email, Họ tên, Số điện thoại liên lạc…). Mọi thông tin khai báo phải đảm bảo tính chính xác và hợp pháp. Gausaigon.com không chịu mọi trách nhiệm liên quan đến pháp luật của thông tin khai báo.</p>
+                                                                    <p>– Chúng tôi cũng có thể thu thập thông tin về số lần viếng thăm, bao gồm số trang quý khách xem, số links (liên kết) bạn click và những thông tin khác liên quan đến việc kết nối đến<strong>gausaigon.com</strong>. Chúng tôi cũng thu thập các thông tin mà trình duyệt Web (Browser) quý khách sử dụng mỗi khi truy cập vào website:&nbsp;<strong>gausaigon.com</strong>, bao gồm: địa chỉ IP, loại Browser, ngôn ngữ sử dụng, thời gian và những địa chỉ mà Browser truy xuất đến.</p>
+                                                                    <p><strong>2. Sử dụng thông tin cá nhân</strong></p>
+                                                                    <p>–&nbsp;<a href="https://gausaigon.com/" target="_blank" rel="noopener"><strong>Gausaigon.com</strong></a>&nbsp;thu thập và sử dụng thông tin cá nhân quý khách với mục đích phù hợp và hoàn toàn tuân thủ nội dung của “Chính sách bảo mật” này.</p>
+                                                                    <p>– Khi cần thiết, chúng tôi có thể sử dụng những thông tin này để liên hệ trực tiếp với bạn dưới các hình thức như: gửi thư ngỏ, đơn đặt hàng, thư cảm ơn, thông tin về kỹ thuật và bảo mật, quý khách có thể nhận được thư định kỳ cung cấp thông tin sản phẩm, dịch vụ mới, thông tin về các sự kiện sắp tới hoặc thông tin tuyển dụng nếu quý khách đăng kí nhận email thông báo.</p>
+                                                                    <p><strong>3. Chia sẻ thông tin cá nhân</strong></p>
+                                                                    <p>– Ngoại trừ các trường hợp về sử dụng thông tin cá nhân như đã nêu trong chính sách này, chúng tôi cam kết sẽ không tiết lộ thông tin cá nhân bạn ra ngoài.</p>
+                                                                    <p>– Trong một số trường hợp, chúng tôi có thể thuê một đơn vị độc lập để tiến hành các dự án nghiên cứu thị trường và khi đó thông tin của bạn sẽ được cung cấp cho đơn vị này để tiến hành dự án. Bên thứ ba này sẽ bị ràng buộc bởi một thỏa thuận về bảo mật mà theo đó họ chỉ được phép sử dụng những thông tin được cung cấp cho mục đích hoàn thành dự án.</p>
+                                                                    <p>– Chúng tôi có thể tiết lộ hoặc cung cấp thông tin cá nhân của bạn trong các trường hợp thật sự cần thiết như sau: (a) khi có yêu cầu của các cơ quan pháp luật; (b) trong trường hợp mà chúng tôi tin rằng điều đó sẽ giúp chúng tôi bảo vệ quyền lợi chính đáng của mình trước pháp luật; (c) tình huống khẩn cấp và cần thiết để bảo vệ quyền an toàn cá nhân của các thành viên<strong>gausaigon.com</strong>&nbsp;khác.</p>
+                                                                    <p><strong>4. Truy xuất thông tin cá nhân</strong></p>
+                                                                    <p>– Bất cứ thời điểm nào quý khách cũng có thể truy cập và chỉnh sửa những thông tin cá nhân của mình theo các liên kết (website’s links) thích hợp mà chúng tôi cung cấp.</p>
+                                                                    <p><strong>5. Bảo mật thông tin cá nhân</strong></p>
+                                                                    <p>– Khi bạn gửi thông tin cá nhân của bạn cho chúng tôi, bạn đã đồng ý với các điều khoản mà chúng tôi đã nêu ở trên, gausaigon.com cam kết bảo mật thông tin cá nhân của quý khách bằng mọi cách thức có thể. Chúng tôi sẽ sử dụng nhiều công nghệ bảo mật thông tin khác nhau như: chuẩn quốc tế PCI, SSL,… nhằm bảo vệ thông tin này không bị truy lục, sử dụng hoặc tiết lộ ngoài ý muốn.</p>
+                                                                    <p>– Tuy nhiên do hạn chế về mặt kỹ thuật, không một dữ liệu nào có thể được truyền trên đường truyền internet mà có thể được bảo mật 100%. Do vậy, chúng tôi không thể đưa ra một cam kết chắc chắn rằng thông tin quý khách cung cấp cho chúng tôi sẽ được bảo mật một cách tuyệt đối an toàn, và chúng tôi không thể chịu trách nhiệm trong trường hợp có sự truy cập trái phép thông tin cá nhân của quý khách như các trường hợp quý khách tự ý chia sẻ thông tin với người khác…. Nếu quý khách không đồng ý với các điều khoản như đã mô tả ở trên, Chúng tôi khuyên quý khách không nên gửi thông tin đến cho chúng tôi.</p>
+                                                                    <p>– Vì vậy, gausaigon.com cũng khuyến cáo quý khách nên bảo mật các thông tin liên quan đến mật khẩu truy xuất của quý khách và không nên chia sẻ với bất kỳ người nào khác.</p>
+                                                                    <p>– Nếu sử dụng máy tính chung nhiều người, quý khách nên đăng xuất, hoặc thoát hết tất cả cửa sổ Website đang mở.</p>
+                                                                    <p><strong>6. Sử dụng “Cookie”</strong></p>
+                                                                    <p>– Gausaigon.com dùng “Cookie” để giúp cá nhân hóa và nâng cao tối đa hiệu quả sử dụng thời gian trực tuyến của quý khách.</p>
+                                                                    <p>– Một cookie là một file văn bản được đặt trên đĩa cứng của bạn bởi một máy chủ của trang web. Cookie không được dùng để chạy chương trình hay đưa virus vào máy tính của quý khách. Cookie được chỉ định vào máy tính của quý khách và chỉ có thể được đọc bởi một máy chủ trang web trên miền được đưa ra cookie cho quý khách.</p>
+                                                                    <p>– Một trong những mục đích của Cookie là cung cấp những tiện ích để tiết kiệm thời gian của quý khách khi truy cập tại website: gausaigon.com hoặc viếng thăm website: gausaigon.com lần nữa mà không cần đăng ký lại thông tin sẵn có.</p>
+                                                                    <p>– Quý khách có thể chấp nhận hoặc từ chối dùng cookie. Hầu hết những Browser tự động chấp nhận cookie, nhưng quý khách có thể thay đổi những cài đặt để từ chối tất cả những cookie nếu quý khách thích. Tuy nhiên, nếu quý khách chọn từ chối cookie, điều đó có thể gây cản trở và ảnh hưởng không tốt đến một số dịch vụ và tính năng phụ thuộc vào cookie tại website gausaigon.com.</p>
+                                                                    <p><strong>7. Quy định về “Spam”</strong></p>
+                                                                    <p>– Gausaigon.com dùng “Cookie” để giúp cá nhân hóa và nâng cao tối đa hiệu quả sử dụng thời gian trực tuyến của quý khách.</p>
+                                                                    <p>– Gausaigon.com thực sự quan ngại đến vấn nạn Spam (thư rác), các Email giả mạo danh tín chúng tôi gởi đi. Do đó, gausaigon.com khẳng định chỉ gởi Email đến quý khách khi và chỉ khi quý khách có đăng ký hoặc sử dụng dịch vụ từ hệ thống của chúng tôi.</p>
+                                                                    <p>– Gausaigon.com cam kết không bán, thuê lại hoặc cho thuê Email của quý khách từ bên thứ ba. Nếu quý khách vô tình nhận được Email không theo yêu cầu từ hệ thống chúng tôi do một nguyên nhân ngoài ý muốn, xin vui lòng nhấn vào link từ chối nhận Email này kèm theo, hoặc thông báo trực tiếp đến ban quản trị Website.</p>
+                                                                    <p><strong>8. Thay đổi về chính sách</strong></p>
+                                                                    <p>– Chúng tôi hoàn toàn có thể thay đổi nội dung trong trang này mà không cần phải thông báo trước, để phù hợp với các nhu cầu của gausaigon.com cũng như nhu cầu và sự phản hồi từ khách hàng nếu có. Khi cập nhật nội dung chính sách này, chúng tôi sẽ chỉnh sửa lại thời gian “Cập nhật lần cuối” bên dưới.</p>
+                                                                    <p>– Nội dung “Chính sách bảo mật” này chỉ áp dụng tại gausaigon.com, không bao gồm hoặc liên quan đến các bên thứ ba đặt quảng cáo hay có links tại gausaigon.com. Chúng tôi khuyến khích bạn đọc kỹ chính sách An toàn và Bảo mật của các trang web của bên thứ ba trước khi cung cấp thông tin cá nhân cho các trang web đó. Chúng tôi không chịu trách nhiệm dưới bất kỳ hình thức nào về nội dung và tính pháp lý của trang web thuộc bên thứ ba.</p>
+                                                                    <p>– Vì vậy, bạn đã đồng ý rằng, khi bạn sử dụng website của chúng tôi sau khi chỉnh sửa nghĩa là bạn đã thừa nhận, đồng ý tuân thủ cũng như tin tưởng vào sự chỉnh sửa này. Do đó, chúng tôi đề nghị bạn nên xem trước nội dung trang này trước khi truy cập các nội dung khác trên website cũng như bạn nên đọc và tham khảo kỹ nội dung “Chính sách bảo mật” của từng website mà bạn đang truy cập.</p>
+                                                                    <p><strong>9. Thông tin liên hệ</strong></p>
+                                                                    <p>– Chúng tôi luôn hoan nghênh các ý kiến đóng góp, liên hệ và phản hồi thông tin từ bạn về “Chính sách bảo mật” này. Nếu bạn có những thắc mắc liên quan xin vui lòng liên hệ theo địa chỉ Email: cskh@shopsaigon.net</p>
+                                                                    <p><strong>Chúc quý khách luôn hạnh phúc và thành công!</strong></p>
+                                                                </div>
+                                                                <p class="form-row validate-required">
+                                                                    <label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
+                                                                        <input type="checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" name="terms" id="terms">
+                                                                        <span class="woocommerce-terms-and-conditions-checkbox-text">Tôi đã đọc và đồng ý với <a href="https://gausaigon.com/dieu-khoan-chung/" class="woocommerce-terms-and-conditions-link" target="_blank">điều khoản và điều kiện</a> của website</span>&nbsp;<span class="required">*</span>
+                                                                    </label>
+                                                                    <input type="hidden" name="terms-field" value="1">
+                                                                </p>
+                                                            </div>
+
+                                                            <button type="button" onclick="" id="btnOrder" class="button alt" name="woocommerce_checkout_place_order" data-value="Đặt hàng">Đặt hàng</button>
+                                                            <input type="hidden" id="woocommerce-process-checkout-nonce" name="woocommerce-process-checkout-nonce" value="1c76034c07">
+                                                            <input type="hidden" name="_wp_http_referer" value="/?wc-ajax=update_order_review">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="woocommerce-privacy-policy-text"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- large-5 -->
+
+                                </div>
+                                <!-- row -->
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!-- .col-inner -->
+                </div>
+                <!-- .large-12 -->
+            </div>
+            <!-- .row -->
+        </div>
+
+    </main>
+

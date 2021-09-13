@@ -1,0 +1,65 @@
+﻿@model Web.Model.News
+@{
+    TempData["PathName"] = "Tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Web.Core
+@{ 
+    string description = Model.Desciption;
+    if (description.Length > 100)
+    {
+        description = Model.Desciption.Substring(0, 100) + "...";
+    }
+    var lstNewsTop =  ViewBag.NewsTop;
+    var lstNewsButtom = ViewBag.NewsButtom;
+    var dothtml = ".html";
+}
+<main id="main" class="">
+    <div id="content" class="blog-wrapper blog-archive page-wrapper">
+        <div class="row row-large row-divided">
+            <div class="large-9 col">
+                <div id="row-1530498083" class="row large-columns-2 medium-columns- small-columns-1 row-masonry" data-packery-options='{"itemSelector":".col","gutter": 0,"presentageWidth" : true}'>
+                    @foreach (var item in lstNewsTop)
+                    {
+                        string desTop = item.Desciption;
+                        if (desTop.Length > 100)
+                        {
+                            desTop = desTop.Substring(0, 68) + "...";
+                        }
+                        <div class="col post-item">
+                            <div class="col-inner">
+                                <a href="/chi-tiet-tin-tuc/@item.ID/@HelperString.RenderLinkSeo(item.MetaTitle)@dothtml" class="plain">
+                                    <div class="box box-text-bottom box-blog-post has-hover">
+                                        <div class="box-image">
+                                            <div class="image-cover" style="padding-top:56%;"> <img onload="Wpfcll.r(this,true);" src="@item.Image" width="300" height="213" data-wpfc-original-src="@item.Image" class="attachment-medium size-medium wp-post-image" alt="@item.MetaTitle" data-wpfc-original-srcset="@item.Image 300w, @item.Image 768w, @item.Image 510w, @item.Image 778w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+                                        </div>
+                                        <div class="box-text text-left">
+                                            <div class="box-text-inner blog-post-inner">
+                                                <h5 class="post-title is-large ">@item.MetaTitle</h5>
+                                                <div class="is-divider"></div>
+                                                <p class="from_the_blog_excerpt">@desTop</p>
+                                            </div>
+                                        </div>
+                                        @*<div class="badge absolute top post-date badge-circle-inside">
+                                            <div class="badge-inner">
+                                                <span class="post-date-day">16</span>
+                                                <br> <span class="post-date-month is-xsmall">Th9</span>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        }
+                        
+                    </div>
+            </div>
+            <div class="post-sidebar large-3 col">
+                <div id="secondary" class="widget-area" role="complementary">
+                    @{ Html.RenderAction("HotProduct", "Product");}
+                    @{ Html.RenderAction("MenuHome1", "Product");}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

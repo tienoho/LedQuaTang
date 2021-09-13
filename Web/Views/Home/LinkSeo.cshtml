@@ -1,0 +1,29 @@
+﻿
+@{
+    TempData["PathName"] = "Sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/AppJs/LinkSeo.js">
+</script>
+<input type="hidden" value="@ViewBag.LinkSeo" id="linkseo" />
+<main id="main" class="">
+    <div class="row category-page-row">
+        <div class="col large-12">
+            <div class="shop-container">
+                <div class="woocommerce-notices-wrapper"></div>
+                <div class="products row row-small large-columns-4 medium-columns-3 small-columns-2 equalize-box" id="loadData">
+
+
+                </div>
+                <div class="container">
+                    <div style="width:50%;margin: 0 auto;" class="" id="paginationholder">
+                    </div>
+                    <div class="page-load-status">
+                        <div class="loader-spinner infinite-scroll-request text-center">
+                            <div class="loading-spin"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</main>

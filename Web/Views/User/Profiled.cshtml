@@ -1,0 +1,276 @@
+﻿
+@{
+    /**/
+
+    TempData["PathName"] = "Trang cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section js{
+
+    <script>
+        var btn = $('#profile').attr('loaddata', '');
+
+        console.log(btn);
+        $('#profile').ready(function () {
+            $.validator.addMethod("validatePhone", function (value, element) {
+                return this.optional(element) || /(09|08)+([0-9]{8})\b/i.test(value);
+            });
+            $("#rules").validate({
+                rules: {
+                    txtname: {
+                        required: true
+                    },
+                    txtphone: {
+                        required: true,
+                        validatePhone: true
+                    },
+                    txtemail: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    txtname: "Vui lòng nhập thông tin",
+                    txtphone: {
+                        required: "Vui lòng nhập thông tin",
+                        validatePhone: "Vui lòng nhập đúng số điện thoại"
+                    },
+                    txtemail: {
+                        required: "Vui lòng nhập thông tin",
+                        email: "Vui lòng nhập đúng email"
+                    }
+                }
+            });
+            var id = btn.data('id');
+            $.ajax({
+                url: '/User/Getdetail',
+                data: {
+                    id: id
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.data;
+                    if (response.gender == true) {
+                        $('#nam').prop('checked', true);
+                    }
+                    else {
+                        $('#nu').prop('checked', true);
+                    }
+                    //if (data.Birthday == null) {
+                    //    $("#datepicker").datepicker({
+                    //        autoclose: true,
+                    //        todayHighlight: true
+                    //    }).datepicker('setDate', 0);
+                    //}
+
+                    //else {
+                    //    var _regexTime = /\/Date\((\d+)\)\//gm;
+                    //    var _time1 = new Date(parseInt(data.Birthday.replace(_regexTime, "$1")));
+                    //    var _date1 = _time1.getDate() + "/" + eval(_time1.getMonth() + 1) + "/" + _time1.getFullYear();
+                    //    $("#datepicker").datepicker({
+                    //        autoclose: true,
+                    //        todayHighlight: true
+                    //    }).datepicker('setDate', _date1);
+
+                    //}
+                    $('#txtname').val(data.FullName);
+                    $('#txtemail').val(data.Email);
+                    $('#txtphone').val(data.Phone);
+
+                }
+            });
+        });
+        $(".update").click(function () {
+
+            var name = $('#txtname').val();
+            var email = $('#txtemail').val();
+            var phone = $('#txtphone').val();
+            var gender = $("input[name='txtgender']").prop('checked');
+            //var birthday = $('#datepicker').datepicker('getDate');
+            var user = {
+                id: btn.data('id'),
+                FullName: name,
+                Email: email,
+                Phone: phone,
+                Gender: gender,
+                //Birthday: birthday
+            }
+            var d = 0;
+            //$('#rules input[type!="radio"] ').each(function () {
+            //if ($(this).val() == "") {
+            //    d++;
+            //    }
+            //})
+            //if (d > 0) {
+            //    alert("Kiểm tra lại các trường");
+            //}
+            if ($('#rules input[type!="radio"]').valid() == false) {
+                alert("Kiểm tra lại các trường");
+            }
+            else {
+                $.ajax({
+                    url: '/User/Update',
+                    data: {
+                        id: JSON.stringify(user)
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        alert("thành công");
+                    }
+                });
+            }
+
+
+        });
+    </script>
+}
+<main id="main" class="">
+    <div id="content" class="content-area page-wrapper" role="main">
+        <div class="row row-main">
+            <div class="large-12 col">
+                <div class="col-inner">
+                    <div class="woocommerce">
+                        <div class="col-xs-12 col-sm-3 col-md-3 thong-tin">
+                            <ul>
+                                <li>
+                                    <a href="trang-ca-nhan.html">Thông tin tài khoản</a>
+                                </li>
+                                <li>
+                                    <a href="#">Quản lý đơn hàng</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <form action="" id="rules" method="post">
+                            <div class="col-xs-12 col-sm-9 col-md-9 panel-chung-san-pham">
+                                <div>
+                                    <h4>Thông tin tài khoản</h4>
+                                </div>
+                                <div>
+                                    <div style="display:flex">
+                                        <div class="col-md-3">
+                                            <label>Họ tên<span style="color:red">*</span></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input class="form-control" type="text" id="txtname" name="txtname" value="" data-msg="Please enter a valid email address" />
+                                        </div>
+                                    </div>
+                                    <div style="display:flex">
+                                        <div class="col-md-3">
+                                            <label>Số điện thoại<span style="color:red">*</span></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input class="form-control" type="text" name="txtphone" id="txtphone" value="" data-msg="Please enter a valid email address" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display:flex">
+                                    <div class="col-md-3">
+                                        <label>Email<span style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="text" name="txtemail" id="txtemail" value="" />
+                                    </div>
+                                </div>
+                                <div style="display:flex">
+                                    <div class="col-md-3">
+                                        <label>Giới tính<span style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="radio" id="nam" name="txtgender" value="Nam" />Nam
+                                        <input type="radio" id="nu" name="txtgender" value="Nữ" />Nữ
+                                    </div>
+                                </div>
+                                <div style="display:flex">
+                                    @*<div class="col-md-3">
+                                        <label>Ngày sinh</label>
+                                    </div>
+                                    <div id="datepicker" class="input-group date col-md-9" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+                                        <input class="form-control" placeholder="dd/MM/yyyy" type="text">
+                                        <div class="input-group-addon">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>*@
+                                <div>
+                                    <button class="update btn btn-warning" type="submit">Cập nhật</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div><!-- .col-inner -->
+            </div><!-- .large-12 -->
+        </div><!-- .row -->
+    </div>
+
+    <!--WPFC_FOOTER_START-->
+</main><!-- #main -->
+@*<main id="main">
+        <div class="col-xs-12 col-sm-3 col-md-3 thong-tin">
+            <ul>
+                <li>
+                    <a href="trang-ca-nhan.html">Thông tin tài khoản</a>
+                </li>
+                <li>
+                    <a href="#">Quản lý đơn hàng</a>
+                </li>
+            </ul>
+        </div>
+        <form action="" id="rules" method="post">
+            <div class="col-xs-12 col-sm-9 col-md-9 panel-chung-san-pham">
+                <div>
+                    <h4>Thông tin tài khoản</h4>
+                </div>
+                <div>
+                    <div style="display:flex">
+                        <div class="col-md-3">
+                            <label>Họ tên<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="txtname" name="txtname" value="" data-msg="Please enter a valid email address" />
+                        </div>
+                    </div>
+                    <div style="display:flex">
+                        <div class="col-md-3">
+                            <label>Số điện thoại<span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" name="txtphone" id="txtphone" value="" data-msg="Please enter a valid email address" />
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex">
+                    <div class="col-md-3">
+                        <label>Email<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control" type="text" name="txtemail" id="txtemail" value="" />
+                    </div>
+                </div>
+                <div style="display:flex">
+                    <div class="col-md-3">
+                        <label>Giới tính<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" id="nam" name="txtgender" value="Nam" />Nam
+                        <input type="radio" id="nu" name="txtgender" value="Nữ" />Nữ
+                    </div>
+                </div>
+                <div style="display:flex">
+                    <div class="col-md-3">
+                        <label>Ngày sinh</label>
+                    </div>
+                    <div id="datepicker" class="input-group date col-md-9" data-date-format="dd/mm/yyyy">
+                        <input class="form-control" placeholder="dd/MM/yyyy" type="text"> <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+                <div>
+                    <button class="update btn btn-warning" type="submit">Cập nhật</button>
+                </div>
+            </div>
+        </form>
+
+
+    </main>*@
